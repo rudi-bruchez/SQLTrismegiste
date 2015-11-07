@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<hermeticus name="BufferUsage" level="Server" folder="Server"
+<hermeticus name="VolumeInfos" level="Server" folder="Server"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Utilisation du Buffer" label="Utilisation du Buffer" />

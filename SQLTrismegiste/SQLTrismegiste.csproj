@@ -214,6 +214,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Licence.txt" />
+    <Resource Include="CorpusHermeticum\MissingIndexWarnings.xml" />
+    <Resource Include="CorpusHermeticum\Test.xml" />
     <Content Include="templates\result.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -261,11 +263,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\DatabaseFiles.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="CorpusHermeticum\Databases.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -282,11 +279,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="CorpusHermeticum\IOWarnings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="CorpusHermeticum\Memory.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

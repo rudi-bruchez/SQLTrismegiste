@@ -15,4 +15,7 @@
 <folder name="Queries">
   <display lang="FR" tooltip="analyse des requêtes" label="Requêtes" />
 </folder>
+<folder name="SQLOS">
+  <display lang="FR" tooltip="analyse SQLOS" label="SQLOS" />
+</folder>
 </folders>

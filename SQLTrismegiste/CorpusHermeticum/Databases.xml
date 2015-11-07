@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<hermeticus name="Databases" level="Server" folder="Server"
+<hermeticus name="Databases" level="Server" folder="Databases"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Bases de données" label="Bases de données" />

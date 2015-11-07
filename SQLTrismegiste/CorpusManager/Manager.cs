@@ -32,8 +32,14 @@ namespace SQLTrismegiste.CorpusManager
         private SqlConnection _cn;
         public List<string> Databases { get; set; } //= new List<string>();
         public string OutputPath { get; set; }
-        private SqlServer.ServerInfo _serverInfo;
-        private ProcessingOptions _processingOptions;
+        public string ConnectionString
+        { set
+            {
+                _cn = new System.Data.SqlClient.SqlConnection(value);
+
+            } }
+        public SqlServer.ServerInfo Info { get; set; }
+        public ProcessingOptions Options { get; set; }
         private List<Folder> _folders { get; set; }
         public List<Hermeticus> Hermetica { get; set; }
 
@@ -49,16 +55,10 @@ namespace SQLTrismegiste.CorpusManager
                 SimpleLog.Error(args.Message);
         }
 
-        public Manager(SqlConnection cn, List<string> databases, ServerInfo serverInfo, ProcessingOptions options)
+        public Manager()
         {
             //ColumnWarnings = new List<ColumnWarning>();
             //RowWarnings = new List<RowWarning>();
-            _cn = cn;
-            Databases = databases;
-            //SimpleLog.SetLogFile(_outputPath);
-            _serverInfo = serverInfo;
-            _processingOptions = options;
-
             LoadHermetica();
         }
 
@@ -136,7 +136,7 @@ namespace SQLTrismegiste.CorpusManager
         private Query ChooseRightQuery(Hermeticus hermeticus)
         {
             return (from q in hermeticus.Queries
-                where (q.VersionMajor <= _serverInfo.VersionMajor)
+                where (q.VersionMajor <= Info.VersionMajor)
                 orderby q.VersionMajor descending
                 select q).FirstOrDefault();
         }
@@ -206,20 +206,26 @@ namespace SQLTrismegiste.CorpusManager
 
         private DataTable ProcessDataTable(DataTable dt)
         {
-            if (!(_processingOptions.AddQueryPlans || _processingOptions.AddQueryText)) return dt;
+            if (!(Options.AddQueryPlans || Options.AddQueryText)) return dt;
             // TODO
             return dt;
         }
 
         public string Run(Hermeticus h)
         {
+            // some checking
+            Debug.Assert(_cn != null, "_cn != null");
+            Debug.Assert(Databases != null, "Databases != null");
+            Debug.Assert(Info != null, "Info != null");
+            Debug.Assert(Options != null, "Options != null");
+
             if (h == null) return null; // TODO -- log error
 
             var qry = ChooseRightQuery(h);
             if (qry == null)
             {
                 var msg =
-                    $"No valid query found for hermeticus {h.Name}. Server version {_serverInfo.VersionMajor}. Not processing";
+                    $"No valid query found for hermeticus {h.Name}. Server version {Info.VersionMajor}. Not processing";
                 SimpleLog.Error(msg);
                 return null;
             }
@@ -234,11 +240,11 @@ namespace SQLTrismegiste.CorpusManager
                 table = CleanDataTable(table);
                 table = ProcessDataTable(table);
                 table.TableName = "Server";
-                if (_processingOptions.AddQueryPlans || _processingOptions.AddQueryText)
+                if (Options.AddQueryPlans || Options.AddQueryText)
                 {
                     var ce = new CacheExtractor(_cn);
-                    if (_processingOptions.AddQueryPlans) ce.ExtractFromDataTable(ExtractionType.QueryPlans, table);
-                    if (_processingOptions.AddQueryText) ce.ExtractFromDataTable(ExtractionType.SqlText, table);
+                    if (Options.AddQueryPlans) ce.ExtractFromDataTable(ExtractionType.QueryPlans, table);
+                    if (Options.AddQueryText) ce.ExtractFromDataTable(ExtractionType.SqlText, table);
                 }
                 ds.Tables.Add(table);
             }
@@ -251,11 +257,11 @@ namespace SQLTrismegiste.CorpusManager
                     table = CleanDataTable(table);
                     table = ProcessDataTable(table);
                     table.TableName = db;
-                    if (_processingOptions.AddQueryPlans || _processingOptions.AddQueryText)
+                    if (Options.AddQueryPlans || Options.AddQueryText)
                     {
                         var ce = new CacheExtractor(_cn);
-                        if (_processingOptions.AddQueryPlans) ce.ExtractFromDataTable(ExtractionType.QueryPlans, table);
-                        if (_processingOptions.AddQueryText) ce.ExtractFromDataTable(ExtractionType.SqlText, table);
+                        if (Options.AddQueryPlans) ce.ExtractFromDataTable(ExtractionType.QueryPlans, table);
+                        if (Options.AddQueryText) ce.ExtractFromDataTable(ExtractionType.SqlText, table);
                     }
                     ds.Tables.Add(table);
                 }

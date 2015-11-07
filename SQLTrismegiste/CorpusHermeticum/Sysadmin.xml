@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<hermeticus name="Sysadmin" level="Server" folder="Server"
+<hermeticus name="Sysadmin" level="Server" folder="Security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" label="Sysadmin" tooltip="sysadmin" />

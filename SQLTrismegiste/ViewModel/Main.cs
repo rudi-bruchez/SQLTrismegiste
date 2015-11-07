@@ -17,6 +17,8 @@ using SimpleLogger;
 using SQLTrismegiste.CorpusManager;
 using System.Xml;
 using System.Windows.Input;
+using System.Xml.Schema;
+using System.Xml.Linq;
 
 /* TODO
 * internationalisation
@@ -91,6 +93,7 @@ namespace SQLTrismegiste.ViewModel
             var dest = $"{_outputRoot}{Path.GetFileName(filename)}";
             File.Move(filename, dest);
             MessageBox.Show($"file saved to {dest}", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
+            Process.Start(Path.GetDirectoryName(dest));
         }
 
         public string StatusText { get; private set; }
@@ -170,10 +173,6 @@ namespace SQLTrismegiste.ViewModel
             ApplicationTitle = $"SQL Trismegiste {Version}"; // TODO DynamicResource Title
 
             _ce = new CorpusManager.Manager(
-                new System.Data.SqlClient.SqlConnection(ConnectionStringBuilder.ConnectionString),
-                Databases.Where(d => d.Checked).Select(d => d.Name).ToList(),
-                _infos,
-                Options
                 );
         }
 
@@ -190,11 +189,31 @@ namespace SQLTrismegiste.ViewModel
         }
 
         /// <summary>
-        /// TODO
+        /// XML validation
         /// </summary>
         internal void ValidateHermeticus()
         {
-            //throw new NotImplementedException();
+            // part of code from http://blogs.msdn.com/b/wpfsdk/archive/2010/03/26/openfiledialog-sample.aspx
+            var dlg = new Microsoft.Win32.OpenFileDialog()
+            {
+                DefaultExt = ".txt", // Default file extension 
+                Filter = "Xml documents (.xml)|*.xml" // Filter files by extension 
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                var xml = dlg.FileName;
+
+                // part of code from http://stackoverflow.com/questions/751511/validating-an-xml-against-referenced-xsd-in-c-sharp
+                var xsd = new XmlSchemaSet();
+                xsd.Add(null, @"CorpusHermeticum\Corpus.xsd");
+
+                string msg = "";
+                XDocument.Load(xml).Validate(xsd, (o, e) => {
+                    msg += e.Message + Environment.NewLine;
+                });
+                MessageBox.Show(msg == "" ? "Document is valid" : "Document invalid: " + msg, "Validation", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void worker_RunAnalysisCompleted(object sender,
@@ -387,6 +406,11 @@ namespace SQLTrismegiste.ViewModel
                 return;
                 //throw new InvalidOperationException("you need to connect to SQL Server first");
             }
+            _ce.Databases = Databases.Where(d => d.Checked).Select(d => d.Name).ToList();
+            _ce.Info = _infos;
+            _ce.Options = Options;
+            _ce.ConnectionString = ConnectionStringBuilder.ConnectionString;
+
             try
             {
                 Mouse.OverrideCursor = Cursors.Wait;
