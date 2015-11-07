@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="SPAvgElapsedVariableTime" level="Database" folder="Queries"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Top Cached SPs By Avg Elapsed Time with execution time variability" label="Procédures par variabilité d'exécution" />
+  </header>
+  <queries>
+    <query versionMajor="11">
+      <![CDATA[
+SELECT TOP(25) p.name AS [SP Name], qs.execution_count, qs.min_elapsed_time,
+qs.total_elapsed_time/qs.execution_count AS [avg_elapsed_time],
+qs.max_elapsed_time, qs.last_elapsed_time,  qs.cached_time
+FROM sys.procedures AS p WITH (NOLOCK)
+INNER JOIN sys.dm_exec_procedure_stats AS qs WITH (NOLOCK)
+ON p.[object_id] = qs.[object_id]
+WHERE qs.database_id = DB_ID()
+ORDER BY avg_elapsed_time DESC OPTION (RECOMPILE);
+]]>
+    </query>
+  </queries>
+ </hermeticus>

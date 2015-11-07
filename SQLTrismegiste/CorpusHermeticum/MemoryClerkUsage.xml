@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="MemoryClerkUsage" level="Server" folder="SQLOS"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Découpage de l'utilisation de la mémoire par clerks" label="Utilisation des memory clerks" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT TOP(10) mc.[type] AS [Memory Clerk Type], 
+       CAST((SUM(mc.pages_kb)/1024.0) AS DECIMAL (15,2)) AS [Memory Usage (MB)] 
+FROM sys.dm_os_memory_clerks AS mc WITH (NOLOCK)
+GROUP BY mc.[type]  
+ORDER BY SUM(mc.pages_kb) DESC OPTION (RECOMPILE);
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

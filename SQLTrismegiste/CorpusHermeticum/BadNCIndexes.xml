@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="BadNCIndexes" level="Database" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Possible Bad NC Indexes (writes > reads)" label="Index inutiles ?" />
+  </header>
+  <queries>
+    <query versionMajor="11">
+      <![CDATA[
+SELECT OBJECT_NAME(s.[object_id]) AS [Table Name], i.name AS [Index Name], i.index_id, 
+i.is_disabled, i.is_hypothetical, i.has_filter, i.fill_factor,
+user_updates AS [Total Writes], user_seeks + user_scans + user_lookups AS [Total Reads],
+user_updates - (user_seeks + user_scans + user_lookups) AS [Difference]
+FROM sys.dm_db_index_usage_stats AS s WITH (NOLOCK)
+INNER JOIN sys.indexes AS i WITH (NOLOCK)
+ON s.[object_id] = i.[object_id]
+AND i.index_id = s.index_id
+WHERE OBJECTPROPERTY(s.[object_id],'IsUserTable') = 1
+AND s.database_id = DB_ID()
+AND user_updates > (user_seeks + user_scans + user_lookups)
+AND i.index_id > 1
+ORDER BY [Difference] DESC, [Total Writes] DESC, [Total Reads] ASC OPTION (RECOMPILE);
+]]>
+    </query>
+  </queries>
+ </hermeticus>
