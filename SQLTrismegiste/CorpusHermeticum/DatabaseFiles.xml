@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="DatabaseFiles" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Fichiers des bases de données" label="Fichiers de bases de données" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT DB_NAME([database_id])AS [DatabaseName],
+       [file_id], name, physical_name, type_desc, state_desc,
+       CONVERT( bigint, size/128.0) AS [TotalSize_MB]
+FROM sys.master_files WITH (NOLOCK)
+WHERE [database_id] > 4
+AND [database_id] <> 32767
+OR [database_id] = 2
+ORDER BY DB_NAME([database_id])
+]]>
+    </query>
+  </queries>
+ </hermeticus>

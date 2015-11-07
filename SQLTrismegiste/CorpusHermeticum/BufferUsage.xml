@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="BufferUsage" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Utilisation du Buffer" label="Buffer" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT DB_NAME(database_id) AS [Database Name], COUNT(page_id) AS [Page Count],
+CAST(COUNT(*)/128.0 AS DECIMAL(10, 2)) AS [Buffer size(MB)]
+--,AVG(read_microsec) AS [Avg Read Time (microseconds)]
+FROM sys.dm_os_buffer_descriptors WITH (NOLOCK)
+WHERE database_id <> 32767
+GROUP BY DB_NAME(database_id)
+ORDER BY [Buffer size(MB)] DESC OPTION (RECOMPILE)
+]]>  
+    </query>
+    <query versionMajor="110">
+      <![CDATA[
+SELECT DB_NAME(database_id) AS [Database Name], COUNT(page_id) AS [Page Count],
+CAST(COUNT(*)/128.0 AS DECIMAL(10, 2)) AS [Buffer size(MB)]
+,AVG(read_microsec) AS [Avg Read Time (microseconds)]
+FROM sys.dm_os_buffer_descriptors WITH (NOLOCK)
+WHERE database_id <> 32767
+GROUP BY DB_NAME(database_id)
+ORDER BY [Buffer size(MB)] DESC OPTION (RECOMPILE)
+]]>
+    </query>
+  </queries>
+ </hermeticus>

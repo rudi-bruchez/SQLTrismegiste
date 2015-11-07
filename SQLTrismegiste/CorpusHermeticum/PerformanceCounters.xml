@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="PerformanceCounters" level="Server" folder="Performances"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Compteurs de performance" label="Compteurs de performance" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT [object_name], counter_name, instance_name, cntr_value AS [Value]
+FROM sys.dm_os_performance_counters WITH (NOLOCK)
+WHERE ([object_name] LIKE N'%Buffer Node%' AND counter_name = N'Page life expectancy')
+OR ([object_name] LIKE N'%Memory Manager%' AND counter_name = N'Memory Grants Pending')
+OR (counter_name = N'Number of Deadlocks/sec')
+]]>
+    </query>
+  </queries>
+ </hermeticus>

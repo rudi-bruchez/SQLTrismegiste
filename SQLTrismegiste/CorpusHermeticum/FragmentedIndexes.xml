@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" folder="Databases" xsi:noNamespaceSchemaLocation="Corpus.xsd"
+           name="FragmentedIndexes" level="Database" >
+  <header>
+    <description lang="fr" tooltip="fragmentation des index" label="fragmentation" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+        SELECT OBJECT_NAME(ps.object_id) as tbl, i.name as [Index], ROUND(ps.avg_fragmentation_in_percent, 2) as Fragmentation, ps.page_count as PageCount, ps.index_id as IndexId
+        FROM sys.dm_db_index_physical_stats(DB_ID(), NULL, NULL, NULL, NULL) ps
+        JOIN sys.indexes i ON ps.object_id = i.object_id
+        AND ps.index_id = i.index_id
+        ORDER BY ps.avg_fragmentation_in_percent DESC
+      </query>
+  </queries>
+ </hermeticus>

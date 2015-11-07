@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="CPUByDatabase" level="Server" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Activité CPU par base" label="Activité CPU" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+WITH DB_CPU_Stats
+AS
+(SELECT DatabaseID, DB_Name(DatabaseID) AS [Database Name], SUM(total_worker_time) AS [CPU_Time_Ms]
+ FROM sys.dm_exec_query_stats AS qs
+ CROSS APPLY (SELECT CONVERT(int, value) AS [DatabaseID] 
+              FROM sys.dm_exec_plan_attributes(qs.plan_handle)
+              WHERE attribute = N'dbid') AS F_DB
+ GROUP BY DatabaseID)
+SELECT ROW_NUMBER() OVER(ORDER BY [CPU_Time_Ms] DESC) AS [CPU_Rank],
+       [Database Name], [CPU_Time_Ms] AS [CPU_Time_(ms)], 
+       CAST([CPU_Time_Ms] * 1.0 / SUM([CPU_Time_Ms]) OVER() * 100.0 AS DECIMAL(5, 2)) AS [CPU_Percent]
+FROM DB_CPU_Stats
+WHERE DatabaseID <> 32767 -- ResourceDB
+ORDER BY [CPU Rank] OPTION (RECOMPILE)
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

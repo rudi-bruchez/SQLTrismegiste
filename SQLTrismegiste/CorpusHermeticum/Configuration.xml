@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Configuration" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Configuration du serveur" label="Configuration" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT name, value, value_in_use, minimum, maximum, [description], is_dynamic, is_advanced
+FROM sys.configurations WITH (NOLOCK)
+ORDER BY name OPTION (RECOMPILE)
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

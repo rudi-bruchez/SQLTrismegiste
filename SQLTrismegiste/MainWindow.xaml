@@ -1,0 +1,243 @@
+﻿<Window x:Class="SQLTrismegiste.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SQLTrismegiste"
+        xmlns:renderer="clr-namespace:TheArtOfDev.HtmlRenderer.WPF;assembly=HtmlRenderer.WPF"
+        mc:Ignorable="d"
+        x:Name="_this"
+        DataContext="ViewModel.Main"
+        Title="{Binding ApplicationTitle}" Height="350" Width="525" WindowStartupLocation="CenterScreen" WindowState="Maximized" Closing="_this_Closing">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <!--<XmlDataProvider x:Key="index" XPath="/Corpus/Folder" Source="CorpusHermeticum/Index.xml" />-->
+        <Style x:Key="MarginStyle" TargetType="ItemsControl">
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style TargetType="TreeView" BasedOn="{StaticResource MarginStyle}" />
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsExpanded" Value="{Binding FolderExpanded}">
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top" HorizontalAlignment="Right">
+            <ToolBar>
+                <!--<Button Content="Analyser" x:Name="btnAnalyze" Click="btnAnalyze_Click"/>-->
+                <!--<Button Content="{DynamicResource CheckCorpus}" Click="Button_Click" />-->
+                <Button x:Name="btnSaveLastAnalysis" Content="{DynamicResource SaveLastAnalysis}" Click="BtnSaveLastAnalysis_OnClick" />
+                <Button x:Name="btnValidateHermeticus" Content="{DynamicResource ValidateHermeticus}" Click="btnValidateHermeticus_Click" />
+                <Button x:Name="btnAbout" Content="{DynamicResource About}" Click="btnAbout_Click" />
+            </ToolBar>
+        </ToolBarTray>
+        <StatusBar DockPanel.Dock="Bottom" Height="30" >
+            <Label x:Name="lblStatusConnection" Content="{Binding Path=StatusText, UpdateSourceTrigger=PropertyChanged}"/>
+        </StatusBar>
+        <TreeView x:Name="tvCorpus" BorderThickness="1" Margin="0 0 4 0" DockPanel.Dock="Left" Width="200" 
+                   ItemsSource="{Binding Folders}">
+            <TreeView.ItemContainerStyle><!--http://stackoverflow.com/questions/1902630/how-to-expand-all-nodes-of-a-wpf-treeview-in-code-behind-->
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Hermetica}">
+                    <TextBlock FontWeight="Bold" Text="{Binding Display}" ToolTip="{Binding Tooltip}" />
+
+                    <!-- Team template -->
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LocalizedDisplay}" Tag="{Binding Name}" ToolTip="{Binding LocalizedTooltip}" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Blank}">
+                                            <Setter Property="TextBlock.Foreground" Value="Black"/>
+                                        </DataTrigger>
+                                        <!--<DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Success}">
+                                            <Setter Property="TextBlock.Foreground" Value="Green"/>
+                                        </DataTrigger>-->
+                                        <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Error}">
+                                            <Setter Property="TextBlock.Foreground" Value="Red"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+
+        </TreeView>
+        <TabControl x:Name="tcDisplay">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="images\SQLServer.ico" />
+                        <TextBlock Text="{DynamicResource Connection}" Foreground="Blue" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="276" />
+                        <ColumnDefinition Width="Auto" MinWidth="276" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Server}"
+                       VerticalAlignment="Center"
+                       Margin="3"
+                       Grid.Column="0"
+                       Grid.Row="0" />
+                        <ComboBox Margin="3" Grid.Column="0" Grid.Row="0"
+                          x:Name="SqlServerName"
+                          IsEditable="True"
+                          ItemsSource="{Binding ElementName=_this, Path=Servers}"
+                          Text="{Binding Path=ConnectionStringBuilder.DataSource }" />
+                    </StackPanel>
+                    <GroupBox Header="{DynamicResource Authentication}"
+                      Grid.Column="0"
+                      Grid.Row="1">
+                        <StackPanel>
+                            <RadioButton Content="{DynamicResource WindowsAuthentication}"
+                                 Margin="3"
+                                 x:Name="SqlAuthTypeWindows"
+                                 IsChecked="{Binding Path=ConnectionStringBuilder.IntegratedSecurity, UpdateSourceTrigger=PropertyChanged}">
+                            </RadioButton>
+                            <RadioButton Content="{DynamicResource SqlAuthentication}"
+                                 Margin="3"
+                                 x:Name="SqlAuthTypeSql">
+                                <RadioButton.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=ConnectionStringBuilder.IntegratedSecurity}"
+                                                 Value="False">
+                                                <Setter Property="RadioButton.IsChecked"
+                                                Value="True" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </RadioButton.Style>
+                            </RadioButton>
+                            <Grid Visibility="{Binding ElementName=SqlAuthTypeSql, Path=IsChecked , Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Login: "
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Margin="3"
+                                   VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1"
+                                 Grid.Row="0"
+                                 Margin="3"
+                                 Text="{Binding Path=UserID}" />
+                                <TextBlock Text="Mot de passe: "
+                                   Grid.Column="0"
+                                   Grid.Row="1"
+                                   Margin="3"
+                                   VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1"
+                                 Grid.Row="1"
+                                 Margin="3"
+                                 Text="{Binding Path=Password}" />
+                                <!--TODO: PasswordBox PasswordChar="*", but no binding !! http://stackoverflow.com/questions/1483892/how-to-bind-to-a-passwordbox-in-mvvm-->
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="{DynamicResource Options}"
+                      Grid.Column="0"
+                      Grid.Row="2">
+                        <StackPanel Orientation="Horizontal" Margin="3">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type CheckBox}">
+                                    <Setter Property="Margin" Value="0,0,10,0"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <CheckBox x:Name="chkAddQueryText" Content="{DynamicResource AddQueryText}" IsChecked="{Binding Path=Options.AddQueryText}"/>
+                            <CheckBox x:Name="chkAddQueryPlans" Content="{DynamicResource AddQueryPlans}" IsChecked="{Binding Path=Options.AddQueryPlans}"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <StackPanel x:Name="panelButtons1" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style x:Key="stpRes1" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="10,0,0,0"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Button x:Name="TestConnection" Content="{DynamicResource Connect}" Width="100" Click="TestConnection_Click" />
+                        <Button Content="{DynamicResource RunAnalysis}" x:Name="btnAnalyzeAll" Width="100" Click="btnAnalyzeAll_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="tbServerInfos" TextWrapping="Wrap" Text="{Binding Path=ServerInfos}" Grid.Row="4" Grid.Column="0" Margin="10">
+                    </TextBlock>
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,0">
+                    <Label x:Name="lblDatabases" Content="{DynamicResource Databases}" />
+                    <!--<Button x:Name="btnCheckAll" Content="{DynamicResource CheckAll}" Width="100" Click="btnCheckAll_Click" BorderThickness="0" BorderBrush="White" />-->
+                    </StackPanel>
+                    <DataGrid x:Name="dgDatabases" Grid.Row="6" AutoGenerateColumns="False" ItemsSource="{Binding Path=Databases}" 
+                              SelectionMode="Single" SelectionUnit="Cell" EnableRowVirtualization="False" 
+                              CanUserAddRows="False" >
+                        <!-- CanUserAddRows to avoid last empty row-->
+                        <DataGrid.Columns>
+                            <!--<DataGridCheckBoxColumn Binding="{Binding Checked}" CanUserSort="False" Header="{DynamicResource Analyze}"/>-->
+                            <!--Instead of DataGridCheckBoxColumn to allow single click select !--> 
+                            <DataGridTemplateColumn Header="{DynamicResource Analyze}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=Checked, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding Name}" CanUserSort="False" Header="{DynamicResource Database}"/>
+                            <DataGridTextColumn Binding="{Binding CompatibilityLevel}" CanUserSort="False" Header="{DynamicResource Compatibility}">
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="1" Grid.Row="0">
+                        <TextBlock Text="{DynamicResource Email}"
+                       VerticalAlignment="Center"
+                       Margin="3" />
+                        <TextBox Margin="3" 
+                          x:Name="txtEmail"
+                          Text="{Binding Path=Email }" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button x:Name="btnSendResultsByEmail" Content="{DynamicResource SendResults}" Width="100" Height="20" VerticalAlignment="Top" Click="btnSendResultsByEmail_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="images\open.ico" />
+                        <TextBlock Text="{DynamicResource Results}" Foreground="DarkGreen" />
+                    </StackPanel>
+                </TabItem.Header>
+                <renderer:HtmlPanel x:Name="_htmlPanel" DockPanel.Dock="Right">
+                    <renderer:HtmlPanel.ToolTip>
+                        <ToolTip BorderBrush="Transparent" Padding="0">
+                            <renderer:HtmlLabel x:Name="_htmlTooltipLabel"/>
+                        </ToolTip>
+                    </renderer:HtmlPanel.ToolTip>
+                </renderer:HtmlPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

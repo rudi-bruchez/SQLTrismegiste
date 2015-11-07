@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd"
+  name="QueriesByCPU" level="Server" folder="Performances">
+  <header>
+    <description lang="fr" tooltip="Requêtes par CPU" label="Requêtes par CPU" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+        SELECT TOP 50
+        LEFT(MIN(LTRIM(st.text)), 60) as text,
+        SUM(qs.total_worker_time) as worker_time,
+        SUM(qs.total_clr_time) as clr_time,
+        SUM(qs.execution_count) as executions,
+        AVG(DATEDIFF(minute, qs.creation_time, CURRENT_TIMESTAMP)) as avg_creation
+        FROM sys.dm_exec_query_stats qs
+        CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) as st
+        GROUP BY qs.query_hash
+        ORDER BY worker_time DESC, executions DESC
+    </query>
+  </queries>
+ </hermeticus>

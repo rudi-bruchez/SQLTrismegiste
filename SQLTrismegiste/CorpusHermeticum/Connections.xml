@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Connections" level="Server"  folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Sessions ouvertes" label="Sessions" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT login_name, [program_name], COUNT(session_id) AS [session_count]
+FROM sys.dm_exec_sessions WITH (NOLOCK)
+GROUP BY login_name, [program_name]
+ORDER BY COUNT(session_id) DESC OPTION (RECOMPILE)
+]]>
+    </query>
+  </queries>
+ </hermeticus>

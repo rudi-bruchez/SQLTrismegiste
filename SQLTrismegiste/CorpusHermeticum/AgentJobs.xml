@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="AgentJobs" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Travaux de l'agent" label="Travaux" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT sj.name AS [JobName], sj.[description] AS [JobDescription], SUSER_SNAME(sj.owner_sid) AS [JobOwner],
+sj.date_created, sj.[enabled], sj.notify_email_operator_id, sc.name AS [CategoryName]
+FROM msdb.dbo.sysjobs AS sj WITH (NOLOCK)
+INNER JOIN msdb.dbo.syscategories AS sc WITH (NOLOCK)
+ON sj.category_id = sc.category_id
+ORDER BY sj.name OPTION (RECOMPILE)
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Databases" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Bases de données" label="Bases de données" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	db.[name] AS [db], 
+	db.recovery_model_desc AS [Model], 
+	db.state_desc as dbState, 
+	db.log_reuse_wait_desc AS [LogReuseWait], 
+	CONVERT(DECIMAL(18,2), ls.cntr_value/1024.0) AS [LogSize_MB], 
+	CONVERT(DECIMAL(18,2), lu.cntr_value/1024.0) AS [LogUsed_MB],
+	CAST(CAST(lu.cntr_value AS FLOAT) / CAST(ls.cntr_value AS FLOAT)AS DECIMAL(18,2)) * 100 AS [LogUsed%], 
+	db.[compatibility_level] AS [CompatibilityLevel], 
+	db.page_verify_option_desc AS [PageVerifyOption], 
+	db.is_auto_create_stats_on AS AutoCreateStats, 
+	db.is_auto_update_stats_on AS AutoUpdateStats,
+	db.is_auto_update_stats_async_on AS AutoUpdateStatsAsync, 
+	db.is_parameterization_forced, 
+	db.snapshot_isolation_state_desc AS SI, 
+	db.is_read_committed_snapshot_on AS RCSI,
+	db.is_auto_close_on AS AutoClose, 
+	db.is_auto_shrink_on AS AutoShrink, 
+	db.target_recovery_time_in_seconds AS RecoveryTargetSec, 
+	db.is_cdc_enabled
+FROM sys.databases AS db WITH (NOLOCK)
+INNER JOIN sys.dm_os_performance_counters AS lu WITH (NOLOCK)
+ON db.name = lu.instance_name
+INNER JOIN sys.dm_os_performance_counters AS ls WITH (NOLOCK)
+ON db.name = ls.instance_name
+WHERE lu.counter_name LIKE N'Log File(s) Used Size (KB)%' 
+AND ls.counter_name LIKE N'Log File(s) Size (KB)%'
+AND ls.cntr_value > 0 OPTION (RECOMPILE)
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

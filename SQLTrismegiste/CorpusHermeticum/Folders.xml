@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<folders>
+<folder name="Server">
+  <display lang="FR" tooltip="analyse du système" label="Système" />
+</folder>
+<folder name="Security">
+  <display lang="FR" tooltip="analyse de sécurité" label="Sécurité" />
+</folder>
+<folder name="Databases">
+  <display lang="FR" tooltip="analyse des bases de données" label="Bases de données" />
+</folder>
+<folder name="Performances">
+	<display lang="FR" tooltip="performances du sysème" label="Performances" />
+</folder>
+<folder name="Queries">
+  <display lang="FR" tooltip="analyse des requêtes" label="Requêtes" />
+</folder>
+</folders>

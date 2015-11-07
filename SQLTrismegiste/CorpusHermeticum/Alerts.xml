@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Alerts" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Alertes de l'agent" label="Alertes" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT name, event_source, message_id, severity, [enabled], has_notification, 
+       delay_between_responses, occurrence_count, last_occurrence_date, last_occurrence_time
+FROM msdb.dbo.sysalerts WITH (NOLOCK)
+ORDER BY name OPTION (RECOMPILE)
+]]>  
+    </query>
+  </queries>
+ </hermeticus>
