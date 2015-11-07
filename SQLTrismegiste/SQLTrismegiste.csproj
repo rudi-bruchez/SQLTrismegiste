@@ -213,6 +213,7 @@
     <Resource Include="images\Web.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Licence.txt" />
     <Content Include="templates\result.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
