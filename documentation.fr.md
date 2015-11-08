@@ -2,7 +2,7 @@
 
 **Sql Trismegiste** est un outil libre et open source (license Apache 2) de diagnostic pour SQL Server.
 
-A l'heure actuelle, sa version est 0.6.11 alpha. Le programme est fonctionnel, et beaucoup d'erreurs possibles sont gérées et logguées, mais je peux avoir oublié des cas possibles. Merci de me communiquer tout cas de crash.
+A l'heure actuelle, sa version est 0.6.12 alpha. Le programme est fonctionnel, et beaucoup d'erreurs possibles sont gérées et logguées, mais je peux avoir oublié des cas possibles. Merci de me communiquer tout cas de crash.
 
 Il peut exécuter des requêtes de diagnostic (typiquement des interrogations de vues de gestion dynamique) sur un serveur SQL server, à partir de la version 2005.
 
