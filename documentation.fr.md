@@ -24,7 +24,7 @@ Sql Trismegiste enregistre également, dans le même répertoire, un fichier log
 
 ### Hermetica ###
 
-Les requêtes de diagnostic sont sotckées dans des fichiers XML nommés des Hermetica, dans le répertoire de l'application `CorpusHermeticum`. Pour ajoutez vos propres requêtes, copiez simplement un fichier existant avec un nouveau nom et changez le contenu. Vous devez modifier :
+Les requêtes de diagnostic sont stockées dans des fichiers XML nommés des Hermetica, dans le répertoire de l'application `CorpusHermeticum`. Pour ajoutez vos propres requêtes, copiez simplement un fichier existant avec un nouveau nom et changez le contenu. Vous devez modifier :
 
 - Le nom (`name`) de l'hermeticus.
 - Le niveau (`level`). Les valeurs possibles sont `Server` ou `Database`. Une requête de niveau serveur s'exécute dans le contexte de la base `master`. Une requête de niveau Database s'exécute autant de fois que vous avez coché de base de données dans Sql Trismegiste, dans le contexte de chaque base de données. Le résultat sera donc une table par base de données. Pour écrire une requête de niveau Database, vous partez donc du principe qu'elle s'exécute chaque fois dans un contexte de base de données utilisateur.
