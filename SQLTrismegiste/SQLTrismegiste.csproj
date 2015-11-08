@@ -255,6 +255,7 @@
     </Resource>
     <Resource Include="CorpusHermeticum\PartitionedObjects.xml" />
     <Resource Include="CorpusHermeticum\ParallelPlans.xml" />
+    <Resource Include="CorpusHermeticum\CardinalityEstimation.xml" />
     <Content Include="templates\result.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
