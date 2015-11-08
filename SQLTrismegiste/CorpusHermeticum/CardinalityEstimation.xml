@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="CardinalityEstimation" level="Server" folder="Queries"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Identification des différences d'estimation de cardinalité à partir du cache de plans" label="Estimation de cardinalité" />
+  </header>
+  <queries>
+    <query versionMajor="11">
+      <![CDATA[
+;WITH cte AS
+(
+SELECT  TOP 100 
+		LTRIM(t.text) as sql_text,
+        p.[query_plan],
+        s.[last_execution_time],
+		s.execution_count,
+        p.[query_plan].value('(//@EstimateRows)[1]', 'varchar(128)') AS [estimated_rows],
+        CAST(s.[last_rows] as float) as Last_RowCount
+FROM    sys.[dm_exec_query_stats] AS [s]
+CROSS APPLY sys.[dm_exec_sql_text](sql_handle) AS [t]
+CROSS APPLY sys.[dm_exec_query_plan](plan_handle) AS [p]
+WHERE p.[query_plan] IS NOT NULL   
+AND DATEDIFF(mi, s.[last_execution_time], GETDATE()) < 1
+)
+SELECT * 
+FROM cte
+ORDER BY (ABS(Last_RowCount - estimated_rows)) DESC
+OPTION (RECOMPILE);
+]]>
+    </query>
+  </queries>
+ </hermeticus>

@@ -65,7 +65,15 @@ namespace SQLTrismegiste.CorpusManager
         private Hermeticus Parse(string hermeticus)
         {
             var doc = new XmlDocument();
-            doc.Load(hermeticus);
+            try
+            {
+                doc.Load(hermeticus);
+            }
+            catch (Exception e)
+            {
+                SimpleLog.Error($"error loading hermeticus {hermeticus}. Error : {e.Message}");
+                return null;
+            }
 
             // --- validate the hermetica ---
             doc.Schemas.Add("http://www.w3.org/2001/XMLSchema", "CorpusHermeticum/Corpus.xsd");
@@ -198,7 +206,9 @@ namespace SQLTrismegiste.CorpusManager
             {
                 foreach (var col in cols)
                 {
-                    row[col] = Math.Round(float.Parse(row[col].ToString()), 2);
+                    try
+                    { row[col] = Math.Round(float.Parse(row[col].ToString()), 2); }
+                    catch (Exception) { } 
                 }
             }
             return dt;
@@ -303,7 +313,8 @@ namespace SQLTrismegiste.CorpusManager
 
             foreach (var f in files.Where(f => !f.EndsWith("Folders.xml")))
             {
-                Hermetica.Add(Parse(f));
+                var h = Parse(f);
+                if (h != null) Hermetica.Add(h);
             }
         }
 

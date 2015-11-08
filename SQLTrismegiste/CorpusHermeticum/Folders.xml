@@ -6,6 +6,9 @@
 <folder name="Security">
   <display lang="FR" tooltip="analyse de sécurité" label="Sécurité" />
 </folder>
+<folder name="Maintenance">
+  <display lang="FR" tooltip="Analyse de la maintenance" label="Maintenance" />
+</folder>
 <folder name="Databases">
   <display lang="FR" tooltip="analyse des bases de données" label="Bases de données" />
 </folder>

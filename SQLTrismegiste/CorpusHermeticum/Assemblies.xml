@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Assemblies" level="Database" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Assemblies présentes dans les bases, et modules reliés" label="Assemblies" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	am.assembly_class,
+	am.assembly_method,
+	OBJECT_NAME(am.object_id) as object_name,
+	a.clr_name,
+	a.name as assembly_name,
+	a.create_date,
+	a.modify_date,
+	a.is_user_defined
+FROM sys.assembly_modules am
+JOIN sys.assemblies a ON am.assembly_id = a.assembly_id;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

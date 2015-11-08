@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="DatabasesWithProblems" level="Server" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Bases de données qui ont des options problématiques" label="Bases problématiques" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	db.[name] AS [Database Name], 
+	db.is_auto_create_stats_on, 
+	db.is_auto_update_stats_on,
+	db.is_read_committed_snapshot_on,
+	db.is_auto_shrink_on,
+  db.is_auto_close_on
+FROM sys.databases AS db WITH (NOLOCK)
+INNER JOIN sys.dm_os_performance_counters AS lu WITH (NOLOCK)
+ON db.name = lu.instance_name
+INNER JOIN sys.dm_os_performance_counters AS ls WITH (NOLOCK) 
+ON db.name = ls.instance_name
+WHERE lu.counter_name LIKE N'Log File(s) Used Size (KB)%' 
+AND ls.counter_name LIKE N'Log File(s) Size (KB)%'
+AND ls.cntr_value > 0 
+AND (db.is_auto_create_stats_on = 0 
+	OR db.is_auto_update_stats_on = 0
+	OR db.is_read_committed_snapshot_on = 1
+	OR db.is_auto_shrink_on = 1
+	OR db.is_auto_close_on = 1
+	)
+ORDER BY [Database Name]
+OPTION (RECOMPILE);
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

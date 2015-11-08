@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml;
 
 namespace SQLTrismegiste
@@ -95,7 +96,7 @@ namespace SQLTrismegiste
             _vm.SaveZip();
         }
 
-        private void TextBlock_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void LoadHermeticus(object sender)
         {
             var tb = (sender as TextBlock);
             if (tb == null) return;
@@ -108,6 +109,8 @@ namespace SQLTrismegiste
                 return;
             }
             string output = "";
+
+            Mouse.OverrideCursor = Cursors.Wait;
             try
             {
                 output = $"{_vm.OutputPath}{tb.Tag.ToString()}.html";
@@ -119,6 +122,12 @@ namespace SQLTrismegiste
                 var html = $"<html><body><font color='red'>File {output} not found !</font></body></html>";
                 _htmlPanel.Text = html;
             }
+            Mouse.OverrideCursor = null;
+        }
+
+        private void TextBlock_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            LoadHermeticus(sender);
         }
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)

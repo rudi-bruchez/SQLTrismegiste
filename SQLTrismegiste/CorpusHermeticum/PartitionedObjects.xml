@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="PartitionedObjects" level="Server" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Objets partitionnés par base de données" label="Objets partitionnés" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	p.object_id, p.index_id,
+	'[' + OBJECT_SCHEMA_NAME(p.object_id) + '].[' + OBJECT_NAME(p.object_id) + ']' as TableName,
+	COALESCE(MIN(i.name), '(heap)') as IndexName,
+	COUNT(*) as PartitionCount
+FROM sys.partitions p WITH (READUNCOMMITTED)
+JOIN sys.indexes i WITH (READUNCOMMITTED) ON p.[object_id] = i.[object_id]	
+	AND p.index_id = i.index_id
+WHERE OBJECT_SCHEMA_NAME(p.object_id) NOT IN ('sys')
+GROUP BY p.object_id, p.index_id
+HAVING CAST(COUNT(*) -1 as bit) = 1;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

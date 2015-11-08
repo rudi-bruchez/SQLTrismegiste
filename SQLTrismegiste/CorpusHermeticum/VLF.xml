@@ -5,7 +5,7 @@
     <description lang="fr" tooltip="VLF" label="VLF" />
   </header>
   <queries>
-    <query versionMajor="*">
+    <query versionMajor="11">
       <![CDATA[
 CREATE TABLE #VLFInfo (RecoveryUnitID int, FileID  int,
 					   FileSize bigint, StartOffset bigint,

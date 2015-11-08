@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="AgentLongestSteps" level="Server" folder="Maintenance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Les étapes de travaux les plus longues" label="Longues étapes" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	j.name as JobName,
+	h.step_name as StepName, 
+	CONVERT(CHAR(10), CAST(STR(h.run_date,8, 0) AS dateTIME), 103) as RunDate, 
+	STUFF(STUFF(RIGHT('000000' + CAST ( h.run_time AS VARCHAR(6 ) ) ,6),5,0,':'),3,0,':') as RunTime, 
+	h.run_duration as StepDuration_Sec,
+	case h.run_status 
+		when 0 then 'failed'
+		when 1 then 'Succeded' 
+		when 2 then 'Retry' 
+		when 3 then 'Cancelled' 
+		when 4 then 'In Progress' 
+	end as ExecutionStatus, 
+	h.message MessageGenerated
+FROM msdb.dbo.sysjobhistory h 
+JOIN msdb.dbo.sysjobs j ON j.job_id = h.job_id
+ORDER BY StepDuration_Sec DESC;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

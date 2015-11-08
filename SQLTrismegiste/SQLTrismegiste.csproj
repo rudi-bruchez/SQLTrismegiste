@@ -162,9 +162,24 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\WaitStats.xml">
+    <Resource Include="CorpusHermeticum\AgentJobHistory.xml" />
+    <Resource Include="CorpusHermeticum\AgentJobs.xml" />
+    <Resource Include="CorpusHermeticum\Backups.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="CorpusHermeticum\BufferUsage.xml" />
+    <Resource Include="CorpusHermeticum\Columns.xml" />
+    <Resource Include="CorpusHermeticum\Databases.xml" />
+    <Resource Include="CorpusHermeticum\DatabasesWithProblems.xml" />
+    <Resource Include="CorpusHermeticum\ErrorLog.xml" />
+    <Resource Include="CorpusHermeticum\IOStatsByDisk.xml" />
+    <Resource Include="CorpusHermeticum\IOStatsByFile.xml" />
+    <Resource Include="CorpusHermeticum\ObjectsCompressed.xml" />
+    <Resource Include="CorpusHermeticum\ObjectsInFilegroups.xml" />
+    <Resource Include="CorpusHermeticum\QueriesByCPU.xml" />
+    <Resource Include="CorpusHermeticum\QueryStats.xml" />
+    <Resource Include="CorpusHermeticum\Tables.xml" />
+    <Resource Include="CorpusHermeticum\TransLogSize.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="CorpusHermeticum\FragmentedIndexes.xml">
@@ -172,11 +187,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\QueriesByCPU.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="CorpusHermeticum\WaitStats.xml" />
     <Resource Include="SqlTrismegiste.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +227,34 @@
     <Resource Include="Licence.txt" />
     <Resource Include="CorpusHermeticum\MissingIndexWarnings.xml" />
     <Resource Include="CorpusHermeticum\Test.xml" />
+    <Resource Include="CorpusHermeticum\AgentLongestSteps.xml" />
+    <Resource Include="CorpusHermeticum\LockEscalationPartitioned.xml" />
+    <Resource Include="CorpusHermeticum\DatabaseFiles.xml" />
+    <Resource Include="CorpusHermeticum\DatabaseFileSize.xml" />
+    <Resource Include="CorpusHermeticum\DatabaseFileSizesandSpace.xml" />
+    <Resource Include="CorpusHermeticum\Memory.xml" />
+    <Resource Include="CorpusHermeticum\MemoryClerkUsage.xml" />
+    <Resource Include="CorpusHermeticum\PlanCacheBloat.xml" />
+    <Resource Include="CorpusHermeticum\QueryExecutionCounts.xml" />
+    <Resource Include="CorpusHermeticum\SPAvgElapsedTime.xml" />
+    <Resource Include="CorpusHermeticum\SPAvgElapsedVariableTime.xml" />
+    <Resource Include="CorpusHermeticum\SPExecutionCounts.xml" />
+    <Resource Include="CorpusHermeticum\SPLogicalReads.xml" />
+    <Resource Include="CorpusHermeticum\SPWorkerTime.xml" />
+    <Resource Include="CorpusHermeticum\TopIOStatements.xml" />
+    <Resource Include="CorpusHermeticum\BadNCIndexes.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CorpusHermeticum\LastBackup.xml" />
+    <Resource Include="CorpusHermeticum\UntrustedConstraints.xml" />
+    <Resource Include="CorpusHermeticum\QueriesWithCLR.xml" />
+    <Resource Include="CorpusHermeticum\Assemblies.xml" />
+    <Resource Include="CorpusHermeticum\LatchStats.xml" />
+    <Resource Include="CorpusHermeticum\ImplicitConversions.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="CorpusHermeticum\PartitionedObjects.xml" />
+    <Resource Include="CorpusHermeticum\ParallelPlans.xml" />
     <Content Include="templates\result.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -233,11 +272,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\AgentJobs.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="CorpusHermeticum\Alerts.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -248,22 +282,12 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\BufferUsage.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="CorpusHermeticum\Connections.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="CorpusHermeticum\CPUByDatabase.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="CorpusHermeticum\Databases.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

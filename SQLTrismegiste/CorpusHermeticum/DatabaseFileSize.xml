@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="DatabaseFileSize" level="Server" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Espace dans les fichiers des bases de données" label="Fichiers et taille de bases" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	DB_NAME(mf.database_id) as db,
+	mf.file_id as fichier,
+	mf.type_desc as [type],
+	mf.name,
+	(CAST(mf.size as bigint) * 8192) / 1024 / 1024 as taille_Mo,
+	CASE mf.max_size
+		WHEN 0 THEN 'fixe'
+		WHEN -1 THEN 'unlimited'
+		WHEN 268435456 THEN '2 To'
+		ELSE CAST((CAST(mf.size as bigint) * 8192) / 1024 / 1024 as varchar(50)) + ' Mo'
+	END as max_size,
+	CASE mf.is_percent_growth
+		WHEN 1 THEN CAST(mf.growth as varchar (20)) + '%'
+		ELSE CAST((mf.growth * 8192) / 1024 / 1024  as varchar (20)) + ' MB' 
+	END 
+FROM sys.master_files mf
+ORDER BY mf.database_id, mf.file_id;
+]]>
+    </query>
+  </queries>
+ </hermeticus>

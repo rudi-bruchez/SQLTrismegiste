@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Backups" level="Server" folder="Maintenance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="10 dernières sauvegardes par base de données" label="Backups" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+;WITH cte AS (
+SELECT
+	Database_name,
+	backup_start_date, 
+	backup_finish_date,
+	DATEDIFF(minute, backup_start_date, backup_finish_date) as duration_minutes, 
+	ROUND(backup_size / 1024 / 1024 / 1024.00, 2) as backup_size_GB, 
+	ROUND(compressed_backup_size / 1024 / 1024 / 1024.00, 2) as compressed_backup_size_GB,
+	ROW_NUMBER() OVER (PARTITION BY Database_name ORDER BY backup_finish_date DESC) rownum
+FROM msdb.[dbo].[backupset]
+)
+SELECT 
+	Database_name,
+	backup_start_date, 
+	backup_finish_date,
+	duration_minutes, 
+	backup_size_GB, 
+	compressed_backup_size_GB
+FROM cte
+WHERE rownum <=10
+ORDER BY Database_name, backup_start_date DESC; 
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

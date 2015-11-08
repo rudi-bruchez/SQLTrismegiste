@@ -108,7 +108,7 @@ namespace SQLTrismegiste.ViewModel
                     var assembly = System.Reflection.Assembly.GetExecutingAssembly();
                     return assembly.GetName().Version.ToString();
                 }
-                catch (InvalidDeploymentException) { return "[debug]"; }
+                catch (Exception) { return "[debug]"; }
             }
         }
 

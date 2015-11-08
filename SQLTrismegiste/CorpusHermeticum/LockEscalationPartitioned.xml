@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="LockEscalationPartitioned" level="Database" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Escalade de verrous configuré sur tables partitionnées" label="Escalade sur partitions" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+;WITH
+        PARTITIONNED_TABLE AS
+        (
+                SELECT  DISTINCT object_id
+                FROM    sys.dm_db_partition_stats
+                WHERE   partition_number > 1
+        )
+SELECT          S.name + '.' + T.name AS table_or_indexed_view_name
+                , T.lock_escalation_desc
+                , CASE T.lock_escalation_desc
+                        WHEN 'TABLE' THEN 'ALTER TABLE ' + S.name + '.' + T.name + ' SET (LOCK_ESCALATION = AUTO)'
+                        ELSE NULL
+                END AS sql_change_lock_escalation_level
+FROM            sys.schemas AS S
+INNER JOIN      sys.tables AS T ON S.schema_id = T.schema_id
+INNER JOIN      PARTITIONNED_TABLE AS PT ON PT.object_id = T.object_id;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Columns" level="Database" folder="Database"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Analyse des colonnes" label="Colonnes" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT t.name, c.name, c.column_id, c.collation_name, ty.name, c.max_length
+FROM sys.columns c
+JOIN sys.tables t ON c.object_id = t.object_id
+JOIN sys.types ty ON c.user_type_id = ty.user_type_id
+WHERE t.type = 'U' AND t.is_ms_shipped = 0
+AND (ty.name IN ('uniqueidentifier', 'text', 'image', 'xml')
+	OR (ty.name LIKE '%varchar' AND c.max_length = -1))
+ORDER BY t.name, c.name;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

@@ -11,6 +11,7 @@ SELECT
 	db.[name] AS [db], 
 	db.recovery_model_desc AS [Model], 
 	db.state_desc as dbState, 
+  SUSER_SNAME(db.owner_sid) as [owner],
 	db.log_reuse_wait_desc AS [LogReuseWait], 
 	CONVERT(DECIMAL(18,2), ls.cntr_value/1024.0) AS [LogSize_MB], 
 	CONVERT(DECIMAL(18,2), lu.cntr_value/1024.0) AS [LogUsed_MB],
@@ -26,7 +27,8 @@ SELECT
 	db.is_auto_close_on AS AutoClose, 
 	db.is_auto_shrink_on AS AutoShrink, 
 	db.target_recovery_time_in_seconds AS RecoveryTargetSec, 
-	db.is_cdc_enabled
+	db.is_cdc_enabled,
+  db.state_desc as State
 FROM sys.databases AS db WITH (NOLOCK)
 INNER JOIN sys.dm_os_performance_counters AS lu WITH (NOLOCK)
 ON db.name = lu.instance_name

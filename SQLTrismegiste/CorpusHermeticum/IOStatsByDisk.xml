@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="IOStatsByDisk" level="Server" folder="Performances"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Statistiques IO par partitions" label="IO par disques" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	LEFT(mf.physical_name, 2) as disk, 
+	SUM(fs.num_of_reads) as num_of_reads, 
+	SUM(fs.num_of_bytes_read) as num_of_bytes_read,
+	SUM(fs.num_of_writes) as num_of_writes, 
+	SUM(fs.num_of_bytes_written) as num_of_bytes_written,
+	SUM(fs.io_stall) as io_stall, 
+	SUM(fs.io_stall_read_ms) as io_stall_read_ms, 
+	SUM(fs.io_stall_write_ms) as io_stall_write_ms
+FROM sys.dm_io_virtual_file_stats(null,null) AS fs
+INNER JOIN sys.master_files AS mf
+ON fs.database_id = mf.database_id
+AND fs.[file_id] = mf.[file_id]
+GROUP BY LEFT(mf.physical_name, 2)
+ORDER BY disk;
+]]>
+    </query>
+  </queries>
+ </hermeticus>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="Tables" level="Database" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Analyse des tables" label="Tables" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT t.name, t.create_date, t.modify_date,
+	t.max_column_id_used, text_in_row_limit,
+	t.lock_escalation_desc, i.type_desc as table_type,
+	i.fill_factor,
+	ps.alloc_unit_type_desc, ps.avg_fragmentation_in_percent, ps.avg_record_size_in_bytes,
+	ps.page_count, ps.forwarded_record_count
+FROM sys.tables t
+JOIN sys.indexes i ON t.object_id = i.object_id
+	AND i.index_id < 2
+CROSS APPLY sys.dm_db_index_physical_stats(DB_ID(), t.object_id, i.index_id, NULL, 'LIMITED') as ps
+WHERE ps.page_count > 10
+ORDER BY t.name;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

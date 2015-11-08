@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="TransLogSize" level="Server" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Remplissage des journaux des transactions" label="TransLogSize" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT 
+	db.[name] AS [Database Name], 
+	db.recovery_model_desc AS [Recovery Model], 
+	db.log_reuse_wait_desc AS [Log Reuse Wait Description], 
+	ls.cntr_value / 1000 AS [Log Size (MB)], lu.cntr_value / 1000 AS [Log Used (MB)],
+	CAST(CAST(lu.cntr_value AS FLOAT) / CAST(ls.cntr_value AS FLOAT)AS DECIMAL(18,2)) * 100 AS [Log Used %],
+	(SELECT MAX(bs.backup_finish_date) FROM msdb.dbo.backupset bs WITH (NOLOCK) WHERE bs.database_name = db.[name]
+	AND bs.backup_size > 0 AND bs.type = 'L') as [last log backup]
+FROM sys.databases AS db WITH (NOLOCK)
+JOIN sys.dm_os_performance_counters AS lu WITH (NOLOCK) ON db.name = lu.instance_name
+JOIN sys.dm_os_performance_counters AS ls WITH (NOLOCK) ON db.name = ls.instance_name
+WHERE lu.counter_name LIKE N'Log File(s) Used Size (KB)%' 
+AND ls.counter_name LIKE N'Log File(s) Size (KB)%'
+AND ls.cntr_value > 0 
+AND CAST(CAST(lu.cntr_value AS FLOAT) / CAST(ls.cntr_value AS FLOAT)AS DECIMAL(18,2)) * 100 > 90
+ORDER BY [Database Name]
+OPTION (RECOMPILE);
+
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

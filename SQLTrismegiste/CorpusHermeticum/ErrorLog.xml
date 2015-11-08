@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="ErrorLog" level="Server" folder="Server"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="100 premières lignes du journal d'erreur actuel" label="ErrorLog" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+CREATE TABLE #log (
+	LogDate datetime,
+	ProcessInfo varchar(20),
+	Text varchar(max)
+);
+
+INSERT INTO #log
+EXEC xp_readerrorlog 0,1;
+
+SELECT top 100 *
+FROM #log
+WHERE ProcessInfo <> 'Logon'
+ORDER BY LogDate;
+]]>  
+    </query>
+  </queries>
+ </hermeticus>

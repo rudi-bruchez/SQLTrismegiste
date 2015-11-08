@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd"
+  name="QueriesWithCLR" level="Server" folder="Performances">
+  <header>
+    <description lang="fr" tooltip="Requêtes avec du temps CLR" label="Requêtes CLR" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      SELECT TOP 100
+      qs.last_execution_time,
+      qs.total_worker_time,
+      qs.last_worker_time,
+      qs.min_worker_time,
+      qs.max_worker_time,
+      qs.total_elapsed_time,
+      qs.last_elapsed_time,
+      qs.min_elapsed_time,
+      qs.max_elapsed_time,
+      qs.total_clr_time,
+      qs.last_clr_time,
+      qs.min_clr_time,
+      qs.max_clr_time,
+      qs.total_rows,
+      qs.min_rows,
+      qs.max_rows
+      FROM sys.dm_exec_query_stats qs
+      CROSS APPLY sys.dm_exec_sql_text(qs.plan_handle) st
+      CROSS APPLY sys.dm_exec_query_plan(qs.plan_handle) qp
+      WHERE qs.execution_count > 1
+      AND qs.total_clr_time > 0
+      ORDER BY qs.total_clr_time DESC;
+    </query>
+  </queries>
+</hermeticus>

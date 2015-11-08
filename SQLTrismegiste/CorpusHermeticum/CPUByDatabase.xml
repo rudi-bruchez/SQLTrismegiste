@@ -20,7 +20,7 @@ SELECT ROW_NUMBER() OVER(ORDER BY [CPU_Time_Ms] DESC) AS [CPU_Rank],
        CAST([CPU_Time_Ms] * 1.0 / SUM([CPU_Time_Ms]) OVER() * 100.0 AS DECIMAL(5, 2)) AS [CPU_Percent]
 FROM DB_CPU_Stats
 WHERE DatabaseID <> 32767 -- ResourceDB
-ORDER BY [CPU Rank] OPTION (RECOMPILE)
+ORDER BY [CPU_Rank] OPTION (RECOMPILE)
 ]]>  
     </query>
   </queries>

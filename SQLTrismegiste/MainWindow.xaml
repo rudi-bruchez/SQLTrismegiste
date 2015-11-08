@@ -36,7 +36,7 @@
         <StatusBar DockPanel.Dock="Bottom" Height="30" >
             <Label x:Name="lblStatusConnection" Content="{Binding Path=StatusText, UpdateSourceTrigger=PropertyChanged}"/>
         </StatusBar>
-        <TreeView x:Name="tvCorpus" BorderThickness="1" Margin="0 0 4 0" DockPanel.Dock="Left" Width="200" 
+        <TreeView x:Name="tvCorpus" BorderThickness="1" Margin="0 0 4 0" DockPanel.Dock="Left" Width="230" 
                    ItemsSource="{Binding Folders}">
             <TreeView.ItemContainerStyle><!--http://stackoverflow.com/questions/1902630/how-to-expand-all-nodes-of-a-wpf-treeview-in-code-behind-->
                 <Style TargetType="TreeViewItem">
@@ -50,7 +50,7 @@
                     <!-- Team template -->
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding LocalizedDisplay}" Tag="{Binding Name}" ToolTip="{Binding LocalizedTooltip}" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp">
+                            <TextBlock Text="{Binding LocalizedDisplay}" Tag="{Binding Name}" ToolTip="{Binding LocalizedTooltip}" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" >
                             <TextBlock.Style>
                                 <Style>
                                     <Style.Triggers>

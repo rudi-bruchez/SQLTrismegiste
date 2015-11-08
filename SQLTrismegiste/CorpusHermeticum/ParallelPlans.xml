@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd"
+  name="ParallelPlans" level="Server" folder="Performances">
+  <header>
+    <description lang="fr" tooltip="Plans parallélisés en cache" label="Plans parallélisés" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+      SELECT TOP 100
+      q.text,
+      qs.execution_count,
+      qs.total_elapsed_time,
+      qs.total_worker_time,
+      cp.plan_handle
+      FROM sys.dm_exec_cached_plans cp
+      CROSS apply sys.dm_exec_query_plan(cp.plan_handle) p
+      CROSS apply sys.dm_exec_sql_text(cp.plan_handle) AS q
+      JOIN sys.dm_exec_query_stats qs
+      ON qs.plan_handle = cp.plan_handle
+      WHERE
+      cp.cacheobjtype = 'Compiled Plan' AND
+      p.query_plan.value('declare namespace p="http://schemas.microsoft.com/sqlserver/2004/07/showplan";
+      max(//p:RelOp/@Parallel)', 'float') > 0
+      AND qs.execution_count > 1
+      ORDER BY qs.total_worker_time DESC
+      OPTION (MAXDOP 1);
+      ]]>
+    </query>
+  </queries>
+</hermeticus>

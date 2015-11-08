@@ -2,7 +2,7 @@
 <hermeticus name="IOStalls" level="Server" folder="Performances"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
-    <description lang="fr" tooltip="Attentes IO" label="IS Stalls" />
+    <description lang="fr" tooltip="Attentes IO" label="IO Stalls" />
   </header>
   <queries>
     <query versionMajor="*">

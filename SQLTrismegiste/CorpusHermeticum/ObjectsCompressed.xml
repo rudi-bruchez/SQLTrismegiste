@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hermeticus name="ObjectsCompressed" level="Database" folder="Databases"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
+  <header>
+    <description lang="fr" tooltip="Objets compressés" label="Objets compressés" />
+  </header>
+  <queries>
+    <query versionMajor="*">
+      <![CDATA[
+SELECT OBJECT_NAME(i.[object_id]) AS [ObjectName]
+    ,i.[index_id] AS [IndexID]
+    ,i.[name] AS [IndexName]
+    ,i.[type_desc] AS [IndexType]
+    ,p.partition_number
+	,p.data_compression_desc
+FROM [sys].[indexes] i
+JOIN sys.partitions p ON i.object_id = p.object_id AND i.index_id = p.index_id
+WHERE p.data_compression_desc <> 'NONE'
+ORDER BY OBJECT_NAME(i.[object_id]);
+]]>  
+    </query>
+  </queries>
+ </hermeticus>
