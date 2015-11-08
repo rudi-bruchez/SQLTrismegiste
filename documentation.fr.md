@@ -6,7 +6,7 @@ A l'heure actuelle, Sql Trismegiste est en version alpha. Le programme est fonct
 
 Il peut exécuter des requêtes de diagnostic (typiquement des interrogations de vues de gestion dynamique) sur un serveur SQL server, à partir de la version 2005.
 
-Il y a à l'heure actuelle près de 60 requêtes de diagnostic sur tous les aspects du serveurs.
+Il y a à l'heure actuelle près de 60 requêtes de diagnostic sur tous les aspects de SQL Server.
 
 Les requêtes de diagnostic sont modifiables. Chaque requête est exprimée dans un fichier de définition en XML et vous pouvez aussi bien modifier les requêtes existantes que créer les vôtres. La syntaxe est simple.
 
