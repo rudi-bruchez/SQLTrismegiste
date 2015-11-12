@@ -13,6 +13,7 @@ using System.Text;
 using System.Xml.Schema;
 using SQLTrismegiste.SqlServer;
 using SQLTrismegiste.Tools;
+using static System.Net.WebUtility;
 
 //using Saxon.Api;
 
@@ -40,7 +41,7 @@ namespace SQLTrismegiste.CorpusManager
             } }
         public SqlServer.ServerInfo Info { get; set; }
         public ProcessingOptions Options { get; set; }
-        private List<Folder> _folders { get; set; }
+        //private List<Folder> _folders { get; set; }
         public List<Hermeticus> Hermetica { get; set; }
 
         private static string Normalize(string input)
@@ -153,6 +154,7 @@ namespace SQLTrismegiste.CorpusManager
         {
             using (var cmd = new SqlCommand($"USE {db};", _cn))
             {
+                cmd.CommandTimeout = 240; // 4 min.
                 try
                 {
                     if (_cn.State == ConnectionState.Closed) _cn.Open();
@@ -194,6 +196,8 @@ namespace SQLTrismegiste.CorpusManager
 
         }
 
+
+
         private static DataTable CleanDataTable(DataTable dt)
         {
             // needs to round values ?
@@ -212,6 +216,56 @@ namespace SQLTrismegiste.CorpusManager
                 }
             }
             return dt;
+        }
+
+        /// <summary>
+        /// create the HTML index of all processed hermetica
+        /// </summary>
+        internal void CreateIndex()
+        {
+            var html = new StringBuilder();
+            foreach (var folder in Hermetica.Select(h => h.FolderName).Distinct())
+            {
+                html.Append($"<h2>{folder}<h2>\n<ul>\n");
+                foreach (Hermeticus h in Hermetica.Where(h => h.FolderName == folder))
+                {
+                    switch (h.Status)
+                    {
+                        case ProcessingStatus.Success:
+                            html.Append($"<li><a href='{h.Name}.html'>{h.LocalizedDisplay}</a>{h.LocalizedTooltip}</li>\n");
+                            break;
+                        case ProcessingStatus.Error:
+                            html.Append($"<li>[{h.LocalizedDisplay}] returned error : { HtmlEncode(h.ErrorMessage)}</a></li>\n");
+                            break;
+                        case ProcessingStatus.Blank:
+                            html.Append($"<li>{h.Name} not processed</li>\n");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                html.Append($"</ul>\n");
+            }
+            // template management
+            var param = new Dictionary<string, string>
+            {
+                {"BODY", html.ToString()},
+                {"SERVER", Info.ServerName },
+                {"DATE", String.Format("YYYY-MM-DD HH:MM", DateTime.Now) }
+            };
+
+            var output = $"{OutputPath}index.html";
+
+            try
+            {
+                var text = File.ReadAllText("templates/index.html");
+                text = Regex.Replace(text, @"\{(.+?)\}", m => param[m.Groups[1].Value]);
+                File.WriteAllText(output, text);
+            }
+            catch (Exception e)
+            {
+                SimpleLog.Error($"error reading 'templates/index.html' or writing file index.html. Error [{e.Message}]");
+            }
         }
 
         private DataTable ProcessDataTable(DataTable dt)
@@ -237,6 +291,7 @@ namespace SQLTrismegiste.CorpusManager
                 var msg =
                     $"No valid query found for hermeticus {h.Name}. Server version {Info.VersionMajor}. Not processing";
                 SimpleLog.Error(msg);
+                h.ErrorMessage = msg;
                 return null;
             }
 
@@ -277,6 +332,7 @@ namespace SQLTrismegiste.CorpusManager
                 }
             }
 
+            if (ds.Tables.Count == 0) return null;
             return SaveHtml(ds, h);
         }
 
@@ -287,7 +343,9 @@ namespace SQLTrismegiste.CorpusManager
             {
                 {"TITLE", h.Displays["FR"].Label},
                 {"DESCRIPTION", h.Displays["FR"].Tooltip},
-                { "BODY", ds.ToHtml(new HtmlSettings() { WithLineFeeds = true})}
+                {"BODY", ds.ToHtml(new HtmlSettings() { WithLineFeeds = true})},
+                {"SERVER", Info.ServerName },
+                {"DATE", String.Format("YYYY-MM-DD HH:MM", DateTime.Now) }
             };
 
             var output = $"{OutputPath}{h.Name}.html";

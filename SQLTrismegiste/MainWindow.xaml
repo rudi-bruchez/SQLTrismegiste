@@ -28,13 +28,17 @@
             <ToolBar>
                 <!--<Button Content="Analyser" x:Name="btnAnalyze" Click="btnAnalyze_Click"/>-->
                 <!--<Button Content="{DynamicResource CheckCorpus}" Click="Button_Click" />-->
+                <Button x:Name="btnClearStats" Content="{DynamicResource ClearStats}" Click="btnClearStats_Click" />
                 <Button x:Name="btnSaveLastAnalysis" Content="{DynamicResource SaveLastAnalysis}" Click="BtnSaveLastAnalysis_OnClick" />
                 <Button x:Name="btnValidateHermeticus" Content="{DynamicResource ValidateHermeticus}" Click="btnValidateHermeticus_Click" />
                 <Button x:Name="btnAbout" Content="{DynamicResource About}" Click="btnAbout_Click" />
             </ToolBar>
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="30" >
-            <Label x:Name="lblStatusConnection" Content="{Binding Path=StatusText, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Orientation="Horizontal">
+                <Label x:Name="lblStatusConnection" Content="{Binding Path=StatusText, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label x:Name="lblStatsCleared" Content="{Binding Path=StatsCleared, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
         </StatusBar>
         <TreeView x:Name="tvCorpus" BorderThickness="1" Margin="0 0 4 0" DockPanel.Dock="Left" Width="230" 
                    ItemsSource="{Binding Folders}">
@@ -51,21 +55,21 @@
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding LocalizedDisplay}" Tag="{Binding Name}" ToolTip="{Binding LocalizedTooltip}" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" >
-                            <TextBlock.Style>
+                            <!--<TextBlock.Style>
                                 <Style>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Blank}">
                                             <Setter Property="TextBlock.Foreground" Value="Black"/>
                                         </DataTrigger>
-                                        <!--<DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Success}">
+                                        --><!--<DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Success}">
                                             <Setter Property="TextBlock.Foreground" Value="Green"/>
-                                        </DataTrigger>-->
+                                        </DataTrigger>--><!--
                                         <DataTrigger Binding="{Binding Status}" Value="{x:Static local:ProcessingStatus.Error}">
                                             <Setter Property="TextBlock.Foreground" Value="Red"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </TextBlock.Style>
+                            </TextBlock.Style>-->
                             </TextBlock>
                         </DataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
@@ -178,12 +182,13 @@
                     </GroupBox>
                     <StackPanel x:Name="panelButtons1" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Orientation="Horizontal">
                         <StackPanel.Resources>
-                            <Style x:Key="stpRes1" TargetType="{x:Type Button}">
-                                <Setter Property="Margin" Value="10,0,0,0"/>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="5,0,0,0"/>
                             </Style>
                         </StackPanel.Resources>
-                        <Button x:Name="TestConnection" Content="{DynamicResource Connect}" Width="100" Click="TestConnection_Click" />
-                        <Button Content="{DynamicResource RunAnalysis}" x:Name="btnAnalyzeAll" Width="100" Click="btnAnalyzeAll_Click"/>
+                        <Button x:Name="Connection" Content="{DynamicResource Connect}" Width="100" Click="Connection_Click" />
+                        <Button Content="{DynamicResource RunAnalysis}" x:Name="btnAnalyzeAll" Width="100" Click="btnAnalyzeAll_Click" IsEnabled="False"/>
+                        <Button x:Name="btnCacheExplorer" Content="{DynamicResource CacheExplorer}" Click="btnCacheExplorer_Click" IsEnabled="False" />
                     </StackPanel>
                     <TextBlock x:Name="tbServerInfos" TextWrapping="Wrap" Text="{Binding Path=ServerInfos}" Grid.Row="4" Grid.Column="0" Margin="10">
                     </TextBlock>
@@ -230,13 +235,65 @@
                         <TextBlock Text="{DynamicResource Results}" Foreground="DarkGreen" />
                     </StackPanel>
                 </TabItem.Header>
-                <renderer:HtmlPanel x:Name="_htmlPanel" DockPanel.Dock="Right">
-                    <renderer:HtmlPanel.ToolTip>
-                        <ToolTip BorderBrush="Transparent" Padding="0">
-                            <renderer:HtmlLabel x:Name="_htmlTooltipLabel"/>
-                        </ToolTip>
-                    </renderer:HtmlPanel.ToolTip>
-                </renderer:HtmlPanel>
+                <WebBrowser x:Name="htmlBrowser" />
+            </TabItem>
+            <TabItem x:Name="tabCacheExplorer" Visibility="Hidden">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="images\Processor.ico" />
+                        <TextBlock Text="Cache Explorer" Foreground="DarkMagenta" />
+                    </StackPanel>
+                </TabItem.Header>
+                <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                    <StackPanel Orientation="Horizontal">
+                            <Label Content="{StaticResource FilterCache}" />
+                            <TextBox x:Name="txtFilterCache" Width="100"/>
+                            <Button x:Name="btnFilterCache" Content="{StaticResource Filter}" Margin="5,5,5,5" Click="btnFilterCache_Click" />
+                            <!--<RadioButton x:Name="ByExecution" Content="By Execution" Margin="0,5,0,0" />-->
+                        </StackPanel>
+                <DataGrid x:Name="dgCacheExplorer" ItemsSource="{Binding Path=PlanCache}" AutoGenerateColumns="False"
+                    EnableRowVirtualization="False" CanUserAddRows="False" >
+                    <!--<DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#CCDAFF" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{StaticResource NbExec}" Width="55" Binding="{Binding execution_count}"/>
+                        <DataGridTextColumn Header="{StaticResource Query}" Width="400" Binding="{Binding short_query}" IsReadOnly="True">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="ToolTip" Value="{Binding text}" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn MinWidth="100" Header="{StaticResource Query}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <Button x:Name="btnViewQuery" Content="{StaticResource Query}" Height="30" VerticalAlignment="Bottom" Click="btnViewQuery_Click" />
+                                        <Button x:Name="btnViewPlan" Content="Plan" Height="30" VerticalAlignment="Bottom" Click="btnViewPlan_Click" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="{StaticResource CreationDate}" Width="70" Binding="{Binding creation_time}"/>
+                        <DataGridTextColumn Header="{StaticResource CreationDate}" Width="300" Binding="{Binding details}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="{StaticResource CreationDate}" Width="10" Binding="{Binding warnings}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </DockPanel>

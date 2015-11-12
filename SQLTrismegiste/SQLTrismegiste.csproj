@@ -58,14 +58,6 @@
     <StartupObject>SQLTrismegiste.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlRenderer, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlRenderer.Core.1.5.0.6\lib\net45\HtmlRenderer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="HtmlRenderer.WPF, Version=1.5.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlRenderer.WPF.1.5.0.6\lib\net45\HtmlRenderer.WPF.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -96,6 +88,12 @@
       <DependentUpon>AboutControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AboutBox\AboutControlViewModel.cs" />
+    <Compile Include="CacheExplorer\CacheExplorer.cs" />
+    <Compile Include="lang\FR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FR.resx</DependentUpon>
+    </Compile>
     <Compile Include="MainWindowDomain.cs" />
     <Compile Include="SqlServer\CacheExtractor.cs" />
     <Compile Include="SqlServer\Database.cs" />
@@ -143,6 +141,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="lang\FR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -226,11 +228,12 @@
   <ItemGroup>
     <Resource Include="Licence.txt" />
     <Resource Include="CorpusHermeticum\MissingIndexWarnings.xml" />
-    <Resource Include="CorpusHermeticum\Test.xml" />
     <Resource Include="CorpusHermeticum\AgentLongestSteps.xml" />
     <Resource Include="CorpusHermeticum\LockEscalationPartitioned.xml" />
     <Resource Include="CorpusHermeticum\DatabaseFiles.xml" />
-    <Resource Include="CorpusHermeticum\DatabaseFileSize.xml" />
+    <Resource Include="CorpusHermeticum\DatabaseFileSize.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Resource Include="CorpusHermeticum\DatabaseFileSizesandSpace.xml" />
     <Resource Include="CorpusHermeticum\Memory.xml" />
     <Resource Include="CorpusHermeticum\MemoryClerkUsage.xml" />
@@ -256,6 +259,9 @@
     <Resource Include="CorpusHermeticum\PartitionedObjects.xml" />
     <Resource Include="CorpusHermeticum\ParallelPlans.xml" />
     <Resource Include="CorpusHermeticum\CardinalityEstimation.xml" />
+    <Content Include="templates\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="templates\result.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -336,6 +342,12 @@
     <Resource Include="CorpusHermeticum\MissingIndexes.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PoorMansTSqlFormatterLib\PoorMansTSqlFormatterLib.csproj">
+      <Project>{dbbde1c0-d108-4b68-a7d2-c1ce55bbc704}</Project>
+      <Name>PoorMansTSqlFormatterLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

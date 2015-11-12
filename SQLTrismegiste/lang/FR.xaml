@@ -24,4 +24,12 @@
     <s:String x:Key="AddQueryText">Ajouter requêtes</s:String>
     <s:String x:Key="AddQueryPlans">Ajouter plans</s:String>
     <s:String x:Key="About">A propos</s:String>
+    <s:String x:Key="CacheExplorer">Explorateur de cache</s:String>
+    <s:String x:Key="NbExec">Nb Exec</s:String>
+    <s:String x:Key="Query">Requête</s:String>
+    <s:String x:Key="CreationDate">Dt Création</s:String>
+    <s:String x:Key="Plan">Plan</s:String>
+    <s:String x:Key="ClearStats">Vider les stats</s:String>
+    <s:String x:Key="FilterCache">Filtrer le cache</s:String>
+    <s:String x:Key="Filter">Filtrer</s:String>
 </ResourceDictionary>

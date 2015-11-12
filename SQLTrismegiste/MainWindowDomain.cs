@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace SQLTrismegiste
 {
+    public enum StatsToClear
+    {
+        Waits,
+        Latches
+    }
+
     public enum ProcessingStatus
     {
         Success,

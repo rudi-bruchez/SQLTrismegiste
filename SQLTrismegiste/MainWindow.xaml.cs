@@ -23,19 +23,36 @@ namespace SQLTrismegiste
             DataContext = _vm;
         }
 
-        private void TestConnection_Click(object sender, RoutedEventArgs e)
+        private void Connection_Click(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrWhiteSpace(SqlServerName.Text))
             {
                 MessageBox.Show("Please enter a server name", "No Server", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            _vm.Connect();           
+            if (_vm.Connect())
+            {
+                btnAnalyzeAll.IsEnabled = true;
+                btnCacheExplorer.IsEnabled = true;
+            }           
         }
 
         private void btnAnalyzeAll_Click(object sender, RoutedEventArgs e)
         {
             _vm.RunFullAnalysis();
+
+            //var output = $"{_vm.OutputPath}index.html";
+            //try
+            //{
+            //    tcDisplay.SelectedIndex = 1;
+            //    _htmlPanel.Text = File.ReadAllText(output);
+            //}
+            //catch (FileNotFoundException)
+            //{
+            //    //MessageBox.Show($"File {output} not found !", "file error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    var html = $"<html><body><font color='red'>File {output} not found !</font></body></html>";
+            //    _htmlPanel.Text = html;
+            //}
 
             // not possible : backgroundworker -> dependency injection of treeview .... ??
             // http://stackoverflow.com/questions/834081/wpf-treeview-where-is-the-expandall-method
@@ -105,7 +122,7 @@ namespace SQLTrismegiste
             if (_vm?.OutputPath == null)
             {
                 var html = $"<html><body><font color='red'>not processed yet !</font></body></html>";
-                _htmlPanel.Text = html;
+                htmlBrowser.NavigateToString(html);
                 return;
             }
             string output = "";
@@ -114,13 +131,13 @@ namespace SQLTrismegiste
             try
             {
                 output = $"{_vm.OutputPath}{tb.Tag.ToString()}.html";
-                _htmlPanel.Text = File.ReadAllText(output);
+                htmlBrowser.Navigate(output);
             }
             catch (FileNotFoundException)
             {
                 //MessageBox.Show($"File {output} not found !", "file error", MessageBoxButton.OK, MessageBoxImage.Error);
                 var html = $"<html><body><font color='red'>File {output} not found !</font></body></html>";
-                _htmlPanel.Text = html;
+                htmlBrowser.NavigateToString(html);
             }
             Mouse.OverrideCursor = null;
         }
@@ -138,6 +155,33 @@ namespace SQLTrismegiste
                 AdditionalNotes = "Apache License (see licence.txt)"
             };
             about.Show();
+        }
+
+        private void btnCacheExplorer_Click(object sender, RoutedEventArgs e)
+        {
+            tabCacheExplorer.Visibility = Visibility.Visible;
+            tcDisplay.SelectedIndex = 2;
+            _vm.CacheExplorer();
+        }
+
+        private void btnViewPlan_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.CE_ViewPlan(((FrameworkElement)sender).DataContext);
+        }
+
+        private void btnViewQuery_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.CE_ViewQuery(((FrameworkElement)sender).DataContext);
+        }
+
+        private void btnClearStats_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.ClearStats();
+        }
+
+        private void btnFilterCache_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.CE_FilterPlanCache(txtFilterCache.Text);
         }
     }
 }

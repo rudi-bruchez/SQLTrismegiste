@@ -18,6 +18,7 @@ namespace SQLTrismegiste.SqlServer
         public int EngineEdition { get; private set; }
         public string ComputerNamePhysicalNetBIOS { get; private set; }
         public string MachineName { get; private set; }
+        public DateTime StartTime { get; private set; }
 
         public string Query => @"
                 SELECT
@@ -31,7 +32,8 @@ namespace SQLTrismegiste.SqlServer
                 SERVERPROPERTY('ComputerNamePhysicalNetBIOS') AS ComputerNamePhysicalNetBIOS,
                 SERVERPROPERTY('InstanceName') AS InstanceName,
                 SERVERPROPERTY('ServerName') AS ServerName,
-                SERVERPROPERTY('MachineName') AS MachineName;           
+                SERVERPROPERTY('MachineName') AS MachineName,
+                (SELECT login_time FROM sysprocesses WHERE spid = 1) as StartTime;           
             ";
 
         public void Set(SqlDataReader reader)
@@ -52,6 +54,7 @@ namespace SQLTrismegiste.SqlServer
                 InstanceName = (reader.GetStringOrNull(8) ?? "NULL");
                 ServerName = (reader.GetString(9) ?? "NULL");
                 MachineName = (reader.GetStringOrNull(10) ?? "NULL");
+                StartTime = reader.GetDateTime(11);
             }
             catch (Exception e)
             {
@@ -66,7 +69,7 @@ namespace SQLTrismegiste.SqlServer
         {
             return $"ServerName = {ServerName};VersionMajor={VersionMajor};VersionMinor={VersionMinor};BuildNumber={BuildNumber};ProductVersion={ProductVersion};"
                    +
-                   $"ProductLevel={ProductLevel};Edition={Edition};EngineEdition={EngineEdition};ComputerNamePhysicalNetBIOS={ComputerNamePhysicalNetBIOS};";
+                   $"ProductLevel={ProductLevel};Edition={Edition};EngineEdition={EngineEdition};ComputerNamePhysicalNetBIOS={ComputerNamePhysicalNetBIOS};StatTime={StartTime}";
         }
     }
 }

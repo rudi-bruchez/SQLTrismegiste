@@ -1,29 +1,28 @@
-﻿using System;
+﻿using SimpleLogger;
+using SQLTrismegiste.CorpusManager;
+using SQLTrismegiste.Tools;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Windows;
-using System.IO.Compression;
-using System.IO;
-using System.Net.Mail;
-using SQLTrismegiste.Tools;
-using System.Diagnostics;
 using System.Configuration;
 using System.Data;
-using System.Deployment.Application;
-using SimpleLogger;
-using SQLTrismegiste.CorpusManager;
-using System.Xml;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net.Mail;
+using System.Windows;
 using System.Windows.Input;
-using System.Xml.Schema;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Schema;
 
 /* TODO
 * internationalisation
 * ajouter du corpus
-* faire la table des matières HTML
+* finir la table des matières HTML
 * ajouter des commentaires
 * préparer une documentation minimale anglais / français
 * check all
@@ -44,6 +43,7 @@ namespace SQLTrismegiste.ViewModel
         private readonly BackgroundWorker _worker = new BackgroundWorker();
         private readonly Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
         private CorpusManager.Manager _ce;
+        private CacheExplorer.PlanCache _cacheExplorer;
 
         private SqlServer.ServerInfo _infos = new SqlServer.ServerInfo();
 
@@ -87,18 +87,34 @@ namespace SQLTrismegiste.ViewModel
         public string Email { get; set; }
         public string ServerInfos { get; private set; }
 
-        internal void SaveZip()
-        {
-            var filename = ZipResults();
-            var dest = $"{_outputRoot}{Path.GetFileName(filename)}";
-            File.Move(filename, dest);
-            MessageBox.Show($"file saved to {dest}", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
-            Process.Start(Path.GetDirectoryName(dest));
-        }
-
         public string StatusText { get; private set; }
         public string ApplicationTitle { get; private set; }
         public ProcessingOptions Options { get; set; } = new ProcessingOptions();
+
+        private DateTime _statsCleared;
+
+        public string StatsCleared
+        {
+            get
+            {
+                if (_statsCleared == DateTime.MinValue) return "";
+                return $"Stats cleared at {_statsCleared}";
+            }
+        }
+
+        private DataView _planCache;
+        public DataView PlanCache
+        {
+            get
+            {
+                return _planCache;
+            }
+            private set
+            {
+                _planCache = value;
+                OnPropertyChanged("PlanCache");
+            }
+        }
 
         public static string Version
         {
@@ -136,6 +152,8 @@ namespace SQLTrismegiste.ViewModel
             }
         }
 
+        public bool IsConnected { get; private set; } = false;
+
         #endregion
 
         #region implementing INotifyPropertyChanged
@@ -167,7 +185,8 @@ namespace SQLTrismegiste.ViewModel
             {
                 // silence;                
             }
-            StatusText = "Not connected";  //{DynamicResource NotConnected}
+            
+            StatusText = lang.FR.NotConnected;  //{DynamicResource NotConnected}
             OnPropertyChanged("StatusText"); // => make the class sealed. Calling private method in constructor
 
             ApplicationTitle = $"SQL Trismegiste {Version}"; // TODO DynamicResource Title
@@ -176,16 +195,82 @@ namespace SQLTrismegiste.ViewModel
                 );
         }
 
+        internal void CE_FilterPlanCache(string text)
+        {
+            if (_cacheExplorer == null) return;
+
+            PlanCache = _cacheExplorer.Filter(text);
+        }
+
+        internal void ClearStats()
+        {
+            if (!IsConnected) return;
+
+            //internal DateTime? ClearStats(StatsToClear stats)
+            string view;
+            var stats = StatsToClear.Waits;
+
+            switch (stats)
+            {
+                case StatsToClear.Waits:
+                    view = "sys.dm_os_wait_stats";
+                    break;
+                case StatsToClear.Latches:
+                    view = "sys.dm_os_latches_stats";
+                    break;
+                default:
+                    return;
+                    break;
+            }
+            var sql = $"DBCC SQLPERF('{view}', 'CLEAR');";
+            using (var cn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            {
+                using (var cmd = new SqlCommand(sql, cn))
+                {
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+                    _statsCleared = DateTime.Now;
+                }
+                cn.Close();
+            }
+            OnPropertyChanged("StatsCleared");
+        }
+
+        internal void CE_ViewQuery(object o)
+        {
+            if (_cacheExplorer == null) return;
+
+            var drv = (o as DataRowView);
+            Debug.Assert(drv != null, "drv != null");
+            if (drv == null)
+            {
+                var msg = $"error in CE_ViewQuery. Object is not DataRowView : {o.ToString()}";
+                SimpleLog.Error(msg);
+                return;
+            }
+            _cacheExplorer.ViewQueryText(drv.Row);
+        }
+
+        internal void CacheExplorer()
+        {
+            _cacheExplorer = new CacheExplorer.PlanCache(ConnectionStringBuilder.ToString());
+            PlanCache = _cacheExplorer.Explore(_infos.VersionMajor);
+        }
+
         private void worker_RunAnalysis(object sender, DoWorkEventArgs e)
         {
             var i = 1;
-            var nb = _ce.Hermetica.Count;
+            var onlyServerLevel = (_ce.Databases.Count == 0);
+
+            var nb = _ce.Hermetica.Count; // todo : only server-level analysis ?
             foreach (var hermeticus in _ce.Hermetica)
             {
-                _ce.Run(hermeticus);
+                if (onlyServerLevel && hermeticus.QueryLevel == Level.Database) continue;
+                if (_ce.Run(hermeticus) == null)  hermeticus.Status = ProcessingStatus.Error;
                 _worker.ReportProgress(i, hermeticus);
                 i++;
             }
+            _ce.CreateIndex();
         }
 
         /// <summary>
@@ -329,8 +414,9 @@ namespace SQLTrismegiste.ViewModel
         /// <summary>
         /// Connect to SQL Server and fill in the GUI to provide options for the check
         /// </summary>
-        public void Connect()
+        public bool Connect()
         {
+            Databases.Clear();
             using (var cn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
             {
                 try
@@ -340,11 +426,10 @@ namespace SQLTrismegiste.ViewModel
                 catch (SqlException)
                 {
                     MessageBox.Show("NOT connected. Error in connection properties ?", "not connected", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    return false;
                 }
-                Databases.Clear();
 
-                var qry = $"SELECT Name, compatibility_level FROM sys.databases WHERE database_id > 5 ORDER BY name; {_infos.Query}";
+                var qry = $"SELECT Name, compatibility_level FROM sys.databases WHERE database_id > 4 ORDER BY name OPTION (RECOMPILE); {_infos.Query}";
                 using (var cmd = new SqlCommand(qry, cn))
                 {
                     SqlDataReader rd;
@@ -357,7 +442,7 @@ namespace SQLTrismegiste.ViewModel
                         var msg = $"SQL Error in query ({qry}).\nError {e.Number} : {e.Message}";
                         MessageBox.Show(msg, "SQL Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         SimpleLog.Error(msg);
-                        return;
+                        return false;
                     }
                     while (rd.Read())
                     {
@@ -371,6 +456,7 @@ namespace SQLTrismegiste.ViewModel
 
                     rd.NextResult();
                     _infos.Set(rd);
+                    _statsCleared = _infos.StartTime;
                     rd.Close();
                     ServerInfos = $"SQL Server version {_infos.ProductVersion}, Edition {_infos.Edition}";
                     OnPropertyChanged("ServerInfos");
@@ -391,6 +477,8 @@ namespace SQLTrismegiste.ViewModel
                 // status
                 StatusText = $"Connected to {ConnectionStringBuilder.DataSource} ({_infos.MachineName}), SQL Server {_infos.ProductVersion} {_infos.Edition}";
                 OnPropertyChanged("StatusText");
+                IsConnected = true;
+                return true;
             }
 
         }
@@ -402,11 +490,21 @@ namespace SQLTrismegiste.ViewModel
         {
             if (ConnectionStringBuilder?.DataSource == null || Databases.Count == 0)
             {
-                MessageBox.Show("you need to connect to SQL Server first", "Connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("you need to connect to SQL Server first (or you have a server without any database ?)", "Connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
                 //throw new InvalidOperationException("you need to connect to SQL Server first");
             }
             _ce.Databases = Databases.Where(d => d.Checked).Select(d => d.Name).ToList();
+
+            // no database selected ??
+            if (_ce.Databases.Count == 0)
+            {
+                if (MessageBox.Show(
+                    "You didn't selected any database. Are you sure you want to process only server-level analysis ?",
+                    "No database selected", MessageBoxButton.YesNo, MessageBoxImage.Information
+                    ) == MessageBoxResult.No) return;
+            }
+
             _ce.Info = _infos;
             _ce.Options = Options;
             _ce.ConnectionString = ConnectionStringBuilder.ConnectionString;
@@ -497,6 +595,31 @@ namespace SQLTrismegiste.ViewModel
             }
             OnPropertyChanged("Databases");
         }
+
+        internal void SaveZip()
+        {
+            var filename = ZipResults();
+            var dest = $"{_outputRoot}{Path.GetFileName(filename)}";
+            File.Move(filename, dest);
+            MessageBox.Show($"file saved to {dest}", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
+            Process.Start(Path.GetDirectoryName(dest));
+        }
+
+        public void CE_ViewPlan(object o)
+        {
+            if (_cacheExplorer == null) return;
+
+            var drv = (o as DataRowView);
+            Debug.Assert(drv != null, "drv != null");
+            if (drv == null)
+            {
+                var msg = $"error in CE_ViewPlan. Object is not DataRowView : {o.ToString()}";
+                SimpleLog.Error(msg);
+                return;
+            }
+            _cacheExplorer.ViewQueryPlan(drv.Row);
+        }
+
         #endregion
     }
 }
