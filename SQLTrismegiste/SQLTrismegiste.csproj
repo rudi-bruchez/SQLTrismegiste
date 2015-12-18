@@ -89,28 +89,17 @@
     </Compile>
     <Compile Include="AboutBox\AboutControlViewModel.cs" />
     <Compile Include="CacheExplorer\CacheExplorer.cs" />
-    <Compile Include="lang\FR.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FR.resx</DependentUpon>
-    </Compile>
     <Compile Include="MainWindowDomain.cs" />
     <Compile Include="SqlServer\CacheExtractor.cs" />
     <Compile Include="SqlServer\Database.cs" />
     <Compile Include="SqlServer\DataReaderExtensions.cs" />
     <Compile Include="SqlServer\ServerInfo.cs" />
     <Compile Include="Tools\ExtensionMethods.cs" />
-    <Compile Include="Tools\MailUtility.cs" />
-    <Compile Include="Tools\MapiApi.cs" />
     <Compile Include="Tools\SimpleLog.cs" />
     <Compile Include="ViewModel\Main.cs" />
     <Page Include="AboutBox\AboutControlView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="lang\FR.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,11 +110,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CorpusManager\Manager.cs" />
-    <Compile Include="CorpusManager\Warning.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\EN.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\FR.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -141,10 +137,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="lang\FR.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FR.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -153,7 +145,6 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -349,6 +340,7 @@
       <Name>PoorMansTSqlFormatterLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

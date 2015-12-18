@@ -27,6 +27,7 @@ using System.Xml.Schema;
 * préparer une documentation minimale anglais / français
 * check all
 * finir le cache extractor
+* SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 */
 
 namespace SQLTrismegiste.ViewModel
@@ -84,7 +85,6 @@ namespace SQLTrismegiste.ViewModel
 
         // binding properties
         public string OutputPath { get; private set; }
-        public string Email { get; set; }
         public string ServerInfos { get; private set; }
 
         public string StatusText { get; private set; }
@@ -98,7 +98,7 @@ namespace SQLTrismegiste.ViewModel
             get
             {
                 if (_statsCleared == DateTime.MinValue) return "";
-                return $"Stats cleared at {_statsCleared}";
+                return $"{App.Localized["msgStatsClearedAt"]} {_statsCleared}";
             }
         }
 
@@ -185,14 +185,14 @@ namespace SQLTrismegiste.ViewModel
             {
                 // silence;                
             }
-            
-            StatusText = lang.FR.NotConnected;  //{DynamicResource NotConnected}
+
+            StatusText = App.Localized["msgNotConnected"]; 
             OnPropertyChanged("StatusText"); // => make the class sealed. Calling private method in constructor
 
             ApplicationTitle = $"SQL Trismegiste {Version}"; // TODO DynamicResource Title
 
-            _ce = new CorpusManager.Manager(
-                );
+            _ce = new CorpusManager.Manager();
+
         }
 
         internal void CE_FilterPlanCache(string text)
@@ -297,7 +297,7 @@ namespace SQLTrismegiste.ViewModel
                 XDocument.Load(xml).Validate(xsd, (o, e) => {
                     msg += e.Message + Environment.NewLine;
                 });
-                MessageBox.Show(msg == "" ? "Document is valid" : "Document invalid: " + msg, "Validation", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(msg == "" ? App.Localized["msgDocumentIsValid"] : App.Localized["msgDocumentIsValid"] + " : " + msg, "Validation", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -305,8 +305,8 @@ namespace SQLTrismegiste.ViewModel
                                                RunWorkerCompletedEventArgs e)
         {
             //update ui once worker complete his work
-            var msg = $"Analysis of {_infos.ServerName} completed";
-            MessageBox.Show(msg, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            var msg = $"{App.Localized["msgAnalysisOf"]} {_infos.ServerName} {App.Localized["msgCompleted"]}";
+            MessageBox.Show(msg, App.Localized["msgAnalysisOf"], MessageBoxButton.OK, MessageBoxImage.Information);
             // status
             StatusText = msg;
             OnPropertyChanged("StatusText");
@@ -321,7 +321,7 @@ namespace SQLTrismegiste.ViewModel
                 Debug.Print(item.Name);
 
                 // status
-                StatusText = $"Hermetica [{item.Name}] analysed. Analysis still running. You can get already see the first results...";
+                StatusText = $"Hermeticus [{item.Name}] {App.Localized["msgAnalysisRunning"]} ...";
                 OnPropertyChanged("StatusText");
                 OnPropertyChanged("Folders.Hermetica");
             }
@@ -360,19 +360,13 @@ namespace SQLTrismegiste.ViewModel
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "error loading folders", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Message, App.Localized["msgErrorLoadingFolder"] , MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
 
         private void LoadConfig()
         {
-            if (_config.AppSettings.Settings["Email"] != null)
-            {
-                Email = _config.AppSettings.Settings["Email"].Value;
-                OnPropertyChanged("Email");
-            }
-
             if (_config.ConnectionStrings.ConnectionStrings["last"] == null) return;
 
             ConnectionStringBuilder.ConnectionString = _config.ConnectionStrings.ConnectionStrings["last"].ConnectionString;
@@ -384,15 +378,6 @@ namespace SQLTrismegiste.ViewModel
 
         internal void SaveConfig()
         {
-            if (_config.AppSettings.Settings["Email"] != null)
-            {
-                _config.AppSettings.Settings["Email"].Value = Email;
-            }
-            else
-            {
-                _config.AppSettings.Settings.Add("Email", Email);
-            }
-
             if (_config.ConnectionStrings.ConnectionStrings["last"] != null)
             {
                 _config.ConnectionStrings.ConnectionStrings["last"].ConnectionString = ConnectionStringBuilder.ConnectionString;
@@ -417,6 +402,7 @@ namespace SQLTrismegiste.ViewModel
         public bool Connect()
         {
             Databases.Clear();
+            ConnectionStringBuilder.ConnectTimeout = 10;
             using (var cn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
             {
                 try
@@ -425,7 +411,7 @@ namespace SQLTrismegiste.ViewModel
                 }
                 catch (SqlException)
                 {
-                    MessageBox.Show("NOT connected. Error in connection properties ?", "not connected", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(App.Localized["msgErrorNotConnected"] , App.Localized["msgNotConnected"] , MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
@@ -439,8 +425,8 @@ namespace SQLTrismegiste.ViewModel
                     }
                     catch (SqlException e)
                     {
-                        var msg = $"SQL Error in query ({qry}).\nError {e.Number} : {e.Message}";
-                        MessageBox.Show(msg, "SQL Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        var msg = $"{App.Localized["msgSqlErrorInQuery"]} ({qry}).\n{App.Localized["msgError"]} {e.Number} : {e.Message}";
+                        MessageBox.Show(msg, App.Localized["msgSqlError"], MessageBoxButton.OK, MessageBoxImage.Error);
                         SimpleLog.Error(msg);
                         return false;
                     }
@@ -475,7 +461,7 @@ namespace SQLTrismegiste.ViewModel
                 OnPropertyChanged("Databases");
 
                 // status
-                StatusText = $"Connected to {ConnectionStringBuilder.DataSource} ({_infos.MachineName}), SQL Server {_infos.ProductVersion} {_infos.Edition}";
+                StatusText = $"{App.Localized["msgConnectedTo"]} {ConnectionStringBuilder.DataSource} ({_infos.MachineName}), SQL Server {_infos.ProductVersion} {_infos.Edition}";
                 OnPropertyChanged("StatusText");
                 IsConnected = true;
                 return true;
@@ -490,7 +476,7 @@ namespace SQLTrismegiste.ViewModel
         {
             if (ConnectionStringBuilder?.DataSource == null || Databases.Count == 0)
             {
-                MessageBox.Show("you need to connect to SQL Server first (or you have a server without any database ?)", "Connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show(App.Localized["msgNeedToConnectFirst"], App.Localized["Connection"] , MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
                 //throw new InvalidOperationException("you need to connect to SQL Server first");
             }
@@ -500,8 +486,9 @@ namespace SQLTrismegiste.ViewModel
             if (_ce.Databases.Count == 0)
             {
                 if (MessageBox.Show(
-                    "You didn't selected any database. Are you sure you want to process only server-level analysis ?",
-                    "No database selected", MessageBoxButton.YesNo, MessageBoxImage.Information
+                    App.Localized["msgNoDatabaseSelected"],
+                    App.Localized["msgNoDatabaseSelectedTitle"],
+                    MessageBoxButton.YesNo, MessageBoxImage.Information
                     ) == MessageBoxResult.No) return;
             }
 
@@ -521,52 +508,52 @@ namespace SQLTrismegiste.ViewModel
 
         }
 
-        /// <summary>
-        /// sends the full analysis result by email
-        /// </summary>
-        public void SendResultsByEmail()
-        {
-            var zipfile = ZipResults();
-            var filename = Path.GetTempPath() + "\\mymessage.eml";
+        ///// <summary>
+        ///// sends the full analysis result by email
+        ///// </summary>
+        //public void SendResultsByEmail()
+        //{
+        //    var zipfile = ZipResults();
+        //    var filename = Path.GetTempPath() + "\\mymessage.eml";
 
-            if (String.IsNullOrWhiteSpace(Email))
-            {
-                MessageBox.Show("You need to enter a valid email address", "email error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+        //    if (String.IsNullOrWhiteSpace(Email))
+        //    {
+        //        MessageBox.Show("You need to enter a valid email address", "email error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        return;
+        //    }
 
-            //var mail = new Tools.Mapi();
-            //mail.AddRecip(Email, Email, false);
-            //mail.Attach(filename);
-            //mail.Send("coucou", "text");
+        //    //var mail = new Tools.Mapi();
+        //    //mail.AddRecip(Email, Email, false);
+        //    //mail.Attach(filename);
+        //    //mail.Send("coucou", "text");
 
-            var from = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name ?? "";
-            // for now :
-            from = Email;
+        //    var from = System.Security.Principal.WindowsIdentity.GetCurrent()?.Name ?? "";
+        //    // for now :
+        //    from = Email;
 
-            try
-            {
-                var mailMessage = new MailMessage(from, Email)
-                {
-                    Subject = "SQL Trismegiste analysis result for " + ConnectionStringBuilder.DataSource,
-                    IsBodyHtml = true,
-                    Body = "<span style='font-size: 12pt; color: red;'>Please find result attached</span>"
-                };
+        //    try
+        //    {
+        //        var mailMessage = new MailMessage(from, Email)
+        //        {
+        //            Subject = "SQL Trismegiste analysis result for " + ConnectionStringBuilder.DataSource,
+        //            IsBodyHtml = true,
+        //            Body = "<span style='font-size: 12pt; color: red;'>Please find result attached</span>"
+        //        };
 
-                mailMessage.Attachments.Add(new Attachment(zipfile));
+        //        mailMessage.Attachments.Add(new Attachment(zipfile));
 
-                //save the MailMessage to the filesystem
-                mailMessage.Save(filename);
+        //        //save the MailMessage to the filesystem
+        //        mailMessage.Save(filename);
 
-                //Open the file with the default associated application registered on the local machine
-                Process.Start(filename);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Error in sending email. Error : {e.Message}", "email error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-        }
+        //        //Open the file with the default associated application registered on the local machine
+        //        Process.Start(filename);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show($"Error in sending email. Error : {e.Message}", "email error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        return;
+        //    }
+        //}
 
         /// <summary>
         /// creates a zip file from the analysis result folder to be attached in the results email
@@ -601,7 +588,7 @@ namespace SQLTrismegiste.ViewModel
             var filename = ZipResults();
             var dest = $"{_outputRoot}{Path.GetFileName(filename)}";
             File.Move(filename, dest);
-            MessageBox.Show($"file saved to {dest}", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"{App.Localized["msgFileSavedTo"]} {dest}", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
             Process.Start(Path.GetDirectoryName(dest));
         }
 

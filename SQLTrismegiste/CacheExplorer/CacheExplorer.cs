@@ -100,6 +100,7 @@ namespace SQLTrismegiste.CacheExplorer
 
                 BuildDetails(_dt);
                 SetPlanWarnings(_dt);
+                SetPlanMissingIndexes(_dt);
                 TokenizeSql(_dt, "text");
                 return _dt.DefaultView;
             }
@@ -123,13 +124,36 @@ namespace SQLTrismegiste.CacheExplorer
         {
             var col = dt.Columns.Add("warnings").Ordinal;
 
-            XmlDocument x = new XmlDocument();
+            var x = new XmlDocument();
+            var mgr = new XmlNamespaceManager(x.NameTable);
+            mgr.AddNamespace("ns", "http://schemas.microsoft.com/sqlserver/2004/07/showplan");
+
             foreach (DataRow r in dt.Rows)
             {
                 var plan = r.Field<string>("query_plan");
                 if (plan == null) continue;
                 x.LoadXml(plan);
-                if (x.SelectNodes(".//Warnings").Count > 0)
+                if (x.SelectNodes("//ns:Warnings", mgr).Count > 0)
+                {
+                    r[col] = "YES";
+                }
+            }
+        }
+
+        private void SetPlanMissingIndexes(DataTable dt)
+        {
+            var col = dt.Columns.Add("missing_index").Ordinal;
+
+            var x = new XmlDocument();
+            var mgr = new XmlNamespaceManager(x.NameTable);
+            mgr.AddNamespace("ns", "http://schemas.microsoft.com/sqlserver/2004/07/showplan");
+
+            foreach (DataRow r in dt.Rows)
+            {
+                var plan = r.Field<string>("query_plan");
+                if (plan == null) continue;
+                x.LoadXml(plan);
+                if (x.SelectNodes("//ns:MissingIndexes", mgr).Count > 0)
                 {
                     r[col] = "YES";
                 }

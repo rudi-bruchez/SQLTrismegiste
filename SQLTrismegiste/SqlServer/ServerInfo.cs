@@ -59,7 +59,7 @@ namespace SQLTrismegiste.SqlServer
             catch (Exception e)
             {
                 var msg =
-                    $"Error in getting information from SQL Server. Maybe an old version (SQL Server 2000) ?\nError is : {e.Message}";
+                    $"{App.Localized["msgErrorInGettingInformation"]} : {e.Message}";
                 MessageBox.Show(msg, "ServerInfo error", MessageBoxButton.OK, MessageBoxImage.Error);
                 SimpleLogger.SimpleLog.Error(msg);
             }

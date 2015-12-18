@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Xml;
 
 namespace SQLTrismegiste
 {
@@ -27,7 +25,7 @@ namespace SQLTrismegiste
         {
             if (String.IsNullOrWhiteSpace(SqlServerName.Text))
             {
-                MessageBox.Show("Please enter a server name", "No Server", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(App.Localized["msgPleaseEnterServerName"], App.Localized["msgNoServer"], MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (_vm.Connect())
@@ -40,52 +38,6 @@ namespace SQLTrismegiste
         private void btnAnalyzeAll_Click(object sender, RoutedEventArgs e)
         {
             _vm.RunFullAnalysis();
-
-            //var output = $"{_vm.OutputPath}index.html";
-            //try
-            //{
-            //    tcDisplay.SelectedIndex = 1;
-            //    _htmlPanel.Text = File.ReadAllText(output);
-            //}
-            //catch (FileNotFoundException)
-            //{
-            //    //MessageBox.Show($"File {output} not found !", "file error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    var html = $"<html><body><font color='red'>File {output} not found !</font></body></html>";
-            //    _htmlPanel.Text = html;
-            //}
-
-            // not possible : backgroundworker -> dependency injection of treeview .... ??
-            // http://stackoverflow.com/questions/834081/wpf-treeview-where-is-the-expandall-method
-            //foreach (object item in tvCorpus.Items)
-            //{
-            //    TreeViewItem treeItem = tvCorpus.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
-            //    if (treeItem != null)
-            //        treeItem.IsExpanded = true;
-            //}
-        }
-
-        //private void tvCorpus_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        //{
-        //    var tvi = (e.NewValue as TreeViewItem);
-        //    if (tvi == null || tvi.HasItems) return;
-
-        //    tcDisplay.SelectedIndex = 1;
-        //    var output = $"{_vm.OutputPath}{tvi.Name}.html";
-        //    try
-        //    {
-        //        _htmlPanel.Text = File.ReadAllText(output);
-        //    }
-        //    catch (FileNotFoundException)
-        //    {
-        //        //MessageBox.Show($"File {output} not found !", "file error", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        var html = $"<html><body><font color='red'>File {output} not found !</font></body></html>";
-        //        _htmlPanel.Text = html;
-        //    }
-        //}
-
-        private void btnSendResultsByEmail_Click(object sender, RoutedEventArgs e)
-        {
-            _vm.SendResultsByEmail();
         }
 
         private void _this_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -121,7 +73,7 @@ namespace SQLTrismegiste
             tcDisplay.SelectedIndex = 1;
             if (_vm?.OutputPath == null)
             {
-                var html = $"<html><body><font color='red'>not processed yet !</font></body></html>";
+                var html = $"<html><header><meta charset='UTF-8'></header><body><font color='red'>{App.Localized["msgNotProcessedYet"]} !</font></body></html>";
                 htmlBrowser.NavigateToString(html);
                 return;
             }
@@ -136,7 +88,7 @@ namespace SQLTrismegiste
             catch (FileNotFoundException)
             {
                 //MessageBox.Show($"File {output} not found !", "file error", MessageBoxButton.OK, MessageBoxImage.Error);
-                var html = $"<html><body><font color='red'>File {output} not found !</font></body></html>";
+                var html = $"<html><header><meta charset='UTF-8'></header><body><font color='red'>{App.Localized["msgFile"]} {output} {App.Localized["msgNotFound"]} !</font></body></html>";
                 htmlBrowser.NavigateToString(html);
             }
             Mouse.OverrideCursor = null;
@@ -183,5 +135,6 @@ namespace SQLTrismegiste
         {
             _vm.CE_FilterPlanCache(txtFilterCache.Text);
         }
+
     }
 }

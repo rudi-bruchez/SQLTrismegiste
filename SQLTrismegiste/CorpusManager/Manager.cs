@@ -72,7 +72,7 @@ namespace SQLTrismegiste.CorpusManager
             }
             catch (Exception e)
             {
-                SimpleLog.Error($"error loading hermeticus {hermeticus}. Error : {e.Message}");
+                SimpleLog.Error($"{App.Localized["msgErrorLoadingHermeticus"]} {hermeticus}. {App.Localized["msgError"]} : {e.Message}");
                 return null;
             }
 
@@ -176,7 +176,7 @@ namespace SQLTrismegiste.CorpusManager
                 catch (SqlException e)
                 {
                     var msg =
-                        $"SQL Error for hermeticus {h.Name}. It could be an error in your SQL syntax, or a problem with the Compatibility level of your database. The SQL exception is : {e.Number}, {e.Message}";
+                        $"{App.Localized["msgSqlErrorForHermeticus"]} {h.Name}. {App.Localized["msgSqlErrorForHermeticus2"]} : {e.Number}, {e.Message}";
                     SimpleLog.Error(msg);
                     h.Status = ProcessingStatus.Error;
                     h.ErrorMessage = msg;
@@ -235,10 +235,10 @@ namespace SQLTrismegiste.CorpusManager
                             html.Append($"<li><a href='{h.Name}.html'>{h.LocalizedDisplay}</a>{h.LocalizedTooltip}</li>\n");
                             break;
                         case ProcessingStatus.Error:
-                            html.Append($"<li>[{h.LocalizedDisplay}] returned error : { HtmlEncode(h.ErrorMessage)}</a></li>\n");
+                            html.Append($"<li>[{h.LocalizedDisplay}] {App.Localized["msgReturnedError"]} : { HtmlEncode(h.ErrorMessage)}</a></li>\n");
                             break;
                         case ProcessingStatus.Blank:
-                            html.Append($"<li>{h.Name} not processed</li>\n");
+                            html.Append($"<li>{h.Name} {App.Localized["msgNotProcessed"]}</li>\n");
                             break;
                         default:
                             break;
@@ -264,7 +264,7 @@ namespace SQLTrismegiste.CorpusManager
             }
             catch (Exception e)
             {
-                SimpleLog.Error($"error reading 'templates/index.html' or writing file index.html. Error [{e.Message}]");
+                SimpleLog.Error($"{App.Localized["msgErrorReadingTemplate"]} [{e.Message}]");
             }
         }
 
@@ -289,7 +289,7 @@ namespace SQLTrismegiste.CorpusManager
             if (qry == null)
             {
                 var msg =
-                    $"No valid query found for hermeticus {h.Name}. Server version {Info.VersionMajor}. Not processing";
+                    $"{App.Localized["msgNoValidQueryFound"]} {h.Name}. Server version {Info.VersionMajor}. {App.Localized["msgNotProcessing"]}";
                 SimpleLog.Error(msg);
                 h.ErrorMessage = msg;
                 return null;

@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SQLTrismegiste"
              xmlns:vm="clr-namespace:SQLTrismegiste.ViewModel"
-             StartupUri="MainWindow.xaml" Exit="Application_Exit">
+             StartupUri="MainWindow.xaml" Exit="Application_Exit" Startup="Application_Startup"
+             >
     <Application.Resources>
         <!--<vm:Main x:Key="MainViewModel" />-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/SQLTrismegiste;component/lang/FR.xaml" />
+                <ResourceDictionary Source="/SQLTrismegiste;component/Resources/FR.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
