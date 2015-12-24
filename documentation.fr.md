@@ -12,6 +12,11 @@ Les requêtes de diagnostic sont modifiables. Chaque requête est exprimée dans
 
 Vous êtes encouragés à partager vos requêtes. Envoyez-moi vos requêtes sous forme d'hermetica (voir ci-dessous) et je les ajouterai à ce dépôt.
 
+### POUR TELECHARGER ###
+- Récupérez le binaire dans le répertoire https://github.com/rudi-bruchez/SQLTrismegiste/tree/master/distributions.
+- Cliquez sur le .zip de la dernière version.
+- Cliquez sur "View Raw" pour télécharger le fichier.
+
 ### Dépendances ###
 
 Sql Trismegiste est écrit en .NET (C#, WPF). Si ce n'est pas déjà fait, vous devez installer le **Framework .NET 4.5** pour le faire fonctionner (la version redistribuable *client profile* suffit).
