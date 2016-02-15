@@ -43,25 +43,25 @@
     <s:String x:Key="msgAnalysisOf">Analyse de</s:String>
     <s:String x:Key="msgCompleted">terminé</s:String>
     <s:String x:Key="msgSuccess">Succès</s:String>
-    <s:String x:Key="msgAnalysisRunning">analysed. Analysis still running. You can get already see the first results</s:String>
-    <s:String x:Key="msgErrorLoadingFolder">Error loading folders</s:String>
+    <s:String x:Key="msgAnalysisRunning">analysé. Analyse en cours. Vous pouvez déjà visulaiser les premiers résultats</s:String>
+    <s:String x:Key="msgErrorLoadingFolder">Erreur de chargement des dossiers</s:String>
     <s:String x:Key="msgErrorNotConnected">NON connecté. Erreur dans les propriétés de la connexion ?</s:String>
     <s:String x:Key="msgSqlError">Erreur SQL</s:String>
     <s:String x:Key="msgSqlErrorInQuery">Erreur SQL dans la requête</s:String>
     <s:String x:Key="msgError">Erreur</s:String>
     <s:String x:Key="msgConnectedTo">Connecté à</s:String>
-    <s:String x:Key="msgNeedToConnectFirst">You need to connect to SQL Server first (or you have a server without any database ?)</s:String>
-    <s:String x:Key="msgNoDatabaseSelected">You didn't selected any database. Are you sure you want to process only server-level analysis ?</s:String>
+    <s:String x:Key="msgNeedToConnectFirst">Vous devez d'abord vous connecter à SQL Server ( vous avez un serveur sans base de données ?)</s:String>
+    <s:String x:Key="msgNoDatabaseSelected">Vous n'avez sélectionné aucune base de données. Etes-vous sûr de vouloir lancer une analyse sur les éléments serveur uniquement ?</s:String>
     <s:String x:Key="msgNoDatabaseSelectedTitle">Aucune base de données sélectionnée</s:String>
     <s:String x:Key="msgFileSavedTo">Fichier sauvegardé dans</s:String>
     <s:String x:Key="msgErrorLoadingHermeticus">Erreur au chargement de l'herméticus</s:String>
     <s:String x:Key="msgSqlErrorForHermeticus">Erreur SQL dans l'herméticus</s:String>
-    <s:String x:Key="msgSqlErrorForHermeticus2">It could be an error in your SQL syntax, or a problem with the Compatibility level of your database. The SQL exception is </s:String>
+    <s:String x:Key="msgSqlErrorForHermeticus2">Il y a peut-être une erreur dansd votre syntaxe SQL, ou un problème avec le niveau de compatibilité de votre base de données. L'exception SQL est </s:String>
     <s:String x:Key="msgReturnedError">a retourné une erreur</s:String>
     <s:String x:Key="msgNotProcessed">non généré</s:String>
-    <s:String x:Key="msgErrorReadingTemplate">error reading 'templates/index.html' or writing file index.html. Error</s:String>
-    <s:String x:Key="msgNoValidQueryFound">No valid query found for hermeticus</s:String>
-    <s:String x:Key="msgNotProcessing">Not processing</s:String>
-    <s:String x:Key="msgErrorInGettingInformation">Error in getting information from SQL Server. Maybe an old version (SQL Server 2000) ?\nError is</s:String>
+    <s:String x:Key="msgErrorReadingTemplate">erreur à la lecture de 'templates/index.html' ou à l'écriture du fichier index.html. Erreur </s:String>
+    <s:String x:Key="msgNoValidQueryFound">Aucune requête valide trouvée pour l'herméticus </s:String>
+    <s:String x:Key="msgNotProcessing">Pas d'exécution</s:String>
+    <s:String x:Key="msgErrorInGettingInformation">Erreur de tentative de lecture depuis SQL Server. Peut-être une version trop ancienne (SQL Server 2000) ?\nL'erreur est </s:String>
 
 </ResourceDictionary>

@@ -273,14 +273,6 @@
                 </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="tabXevents" Visibility="Hidden">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="images\Goto.ico" />
-                        <TextBlock Text="{DynamicResource XEvents}" Foreground="DarkViolet" />
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<hermeticus name="Columns" level="Databases" folder="Database"
+<hermeticus name="Columns" level="Database" folder="Databases"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Analyse des colonnes" label="Colonnes" />
