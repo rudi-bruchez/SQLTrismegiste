@@ -34,7 +34,8 @@ namespace SQLTrismegiste
 
     public class Query
     {
-        public int VersionMajor { get; set; }
+        public byte VersionMajorMin { get; set; }
+        public byte VersionMajorMax { get; set; }
         public string Statement { get; set; }
     }
 

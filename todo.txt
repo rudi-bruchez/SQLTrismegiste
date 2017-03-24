@@ -1,0 +1,20 @@
+https://msdn.microsoft.com/fr-fr/library/cc280701%28v=sql.120%29.aspx
+sys.dm_exec_procedure_stats 
+
+Monitoring Stored Procedure Usage
+http://www.databasejournal.com/features/mssql/article.php/3687186/Monitoring-Stored-Procedure-Usage.htm
+
+Which of Your Stored Procedures are Using the Most Resources?
+https://www.simple-talk.com/sql/performance/which-of-your-stored-procedures-are-using-the-most-resources/
+
+How to find UDFs causing SQL Server performance issues
+https://www.mssqltips.com/sqlservertip/4100/how-to-find-udfs-causing-sql-server-performance-issues/
+
+Determine SQL Server memory use by database and object
+https://www.mssqltips.com/sqlservertip/2393/determine-sql-server-memory-use-by-database-and-object/
+
+http://troubleshootingsql.com/2012/09/06/system-health-session-and-deadlocks/
+http://blogs.msdn.com/b/sqlserverfaq/archive/2013/04/27/an-in-depth-look-at-sql-server-memory-part-2.aspx
+http://troubleshootingsql.com/2011/09/28/system-health-session-part-4/
+http://blogs.technet.com/b/mspfe/archive/2012/06/28/how_2d00_to_2d00_monitor_2d00_deadlocks_2d00_in_2d00_sql_2d00_server.aspx
+http://blogs.technet.com/b/sqlpfeil/archive/2013/05/27/did-you-know-dead-locks-can-be-track-from-the-system-health-in-sql-2012.aspx

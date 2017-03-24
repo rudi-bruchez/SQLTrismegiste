@@ -14,11 +14,11 @@ SELECT
 	mf.name,
 	(CAST(mf.size as bigint) * 8192) / 1024 / 1024 as taille_Mo,
 	CASE mf.max_size
-		WHEN 0 THEN 'fixe'
-		WHEN -1 THEN 'unlimited'
-		WHEN 268435456 THEN '2 To'
-		ELSE CAST((CAST(mf.size as bigint) * 8192) / 1024 / 1024 as varchar(50)) + ' Mo'
-	END as max_size,
+        WHEN 0 THEN 'fixe'
+        WHEN -1 THEN 'unlimited'
+        WHEN 268435456 THEN '2 To'
+        ELSE CAST((CAST(mf.max_size as bigint) / 128 as varchar(50)) + ' Mo'
+  END as max_size,
 	CASE mf.is_percent_growth
 		WHEN 1 THEN CAST(mf.growth as varchar (20)) + '%'
 		ELSE CAST((mf.growth * 8192) / 1024 / 1024  as varchar (20)) + ' MB' 

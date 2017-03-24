@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rudi Bruchez (rudi@babaluga.com)")]
 [assembly: AssemblyProduct("SQLTrismegiste")]
-[assembly: AssemblyCopyright("Copyright © Rudi Bruchez 2015")]
+[assembly: AssemblyCopyright("Copyright © Rudi Bruchez 2015-2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut 
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.6.18.0")]
-[assembly: AssemblyFileVersion("0.6.18.0")]
+[assembly: AssemblyVersion("0.6.20.0")]
+[assembly: AssemblyFileVersion("0.6.20.0")]

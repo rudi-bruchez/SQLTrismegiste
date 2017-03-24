@@ -119,15 +119,43 @@ namespace SQLTrismegiste.CorpusManager
             if (queryNodes == null) return null;
             foreach (XmlNode node in queryNodes)
             {
-                int version;
-                if (!int.TryParse(node.Attributes["versionMajor"].Value, out version))
+                /* changed 2017.03.24
+                 * the rule is :
+                 * 1. it can be a number. If so, the query is only valid for this version
+                 * 2. it can be a star (*), if so, the query is valid for all versions. This will be the default choice
+                 * 3. it can be smth like this : "11-*", "*-11", "11-12"
+                 */
+
+                var versionString = node.Attributes["versionMajor"].Value;
+                byte versionMin = byte.MinValue;
+                byte versionMax = byte.MaxValue;
+
+                if (Regex.IsMatch(versionString, @"^\d+$"))
                 {
-                    version = 0;
+                    versionMin = byte.Parse(versionString);
+                    versionMax = versionMin;
                 }
-                
+                else if (Regex.IsMatch(versionString, @"^\d+-\d+$"))
+                {
+                    var match = Regex.Match(versionString, @"^(\d+)-(\d+)$");
+                    versionMin = byte.Parse(match.Groups[0].Value);
+                    versionMin = byte.Parse(match.Groups[1].Value);
+                }
+                else if (Regex.IsMatch(versionString, @"^\*-\d+$"))
+                {
+                    var match = Regex.Match(versionString, @"^\*-(\d+)$");
+                    versionMax = byte.Parse(match.Groups[0].Value);
+                }
+                else if (Regex.IsMatch(versionString, @"^\d+-\*$"))
+                {
+                    var match = Regex.Match(versionString, @"^(\d+)-\*$");
+                    versionMin = byte.Parse(match.Groups[0].Value);
+                }
+
                 var qry = new Query()
                 {
-                    VersionMajor = version,
+                    VersionMajorMin = versionMin,
+                    VersionMajorMax = versionMax,
                     Statement = Normalize(node.InnerText.Trim().TrimEnd(';'))
                 };
                 h.Queries.Add(qry);
@@ -145,8 +173,8 @@ namespace SQLTrismegiste.CorpusManager
         private Query ChooseRightQuery(Hermeticus hermeticus)
         {
             return (from q in hermeticus.Queries
-                where (q.VersionMajor <= Info.VersionMajor)
-                orderby q.VersionMajor descending
+                where (Info.VersionMajor >= q.VersionMajorMin && Info.VersionMajor <= q.VersionMajorMax )
+                orderby q.VersionMajorMax descending
                 select q).FirstOrDefault();
         }
 
