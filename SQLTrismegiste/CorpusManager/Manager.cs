@@ -130,6 +130,8 @@ namespace SQLTrismegiste.CorpusManager
                 byte versionMin = byte.MinValue;
                 byte versionMax = byte.MaxValue;
 
+                // the element at index 0 returned by the Groups property contains a string 
+                // that matches the entire regular expression pattern
                 if (Regex.IsMatch(versionString, @"^\d+$"))
                 {
                     versionMin = byte.Parse(versionString);
@@ -138,18 +140,18 @@ namespace SQLTrismegiste.CorpusManager
                 else if (Regex.IsMatch(versionString, @"^\d+-\d+$"))
                 {
                     var match = Regex.Match(versionString, @"^(\d+)-(\d+)$");
-                    versionMin = byte.Parse(match.Groups[0].Value);
                     versionMin = byte.Parse(match.Groups[1].Value);
+                    versionMax = byte.Parse(match.Groups[2].Value);
                 }
                 else if (Regex.IsMatch(versionString, @"^\*-\d+$"))
                 {
                     var match = Regex.Match(versionString, @"^\*-(\d+)$");
-                    versionMax = byte.Parse(match.Groups[0].Value);
+                    versionMax = byte.Parse(match.Groups[1].Value);
                 }
                 else if (Regex.IsMatch(versionString, @"^\d+-\*$"))
                 {
                     var match = Regex.Match(versionString, @"^(\d+)-\*$");
-                    versionMin = byte.Parse(match.Groups[0].Value);
+                    versionMin = byte.Parse(match.Groups[1].Value);
                 }
 
                 var qry = new Query()

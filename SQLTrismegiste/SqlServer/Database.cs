@@ -13,7 +13,8 @@ namespace SQLTrismegiste.SqlServer
         v2005 = 90,
         v2008 = 100,
         v2012 = 110,
-        v2014 = 120
+        v2014 = 120,
+        v2016 = 130
     }
 
     internal class Database

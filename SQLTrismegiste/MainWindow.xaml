@@ -41,7 +41,8 @@
         </StatusBar>
         <TreeView x:Name="tvCorpus" BorderThickness="1" Margin="0 0 4 0" DockPanel.Dock="Left" Width="230" 
                    ItemsSource="{Binding Folders}">
-            <TreeView.ItemContainerStyle><!--http://stackoverflow.com/questions/1902630/how-to-expand-all-nodes-of-a-wpf-treeview-in-code-behind-->
+            <TreeView.ItemContainerStyle>
+                <!--http://stackoverflow.com/questions/1902630/how-to-expand-all-nodes-of-a-wpf-treeview-in-code-behind-->
                 <Style TargetType="TreeViewItem">
                     <Setter Property="TreeViewItem.IsExpanded" Value="True"/>
                 </Style>
@@ -85,7 +86,8 @@
                         <TextBlock Text="{DynamicResource Connection}" Foreground="Blue" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid>
+                <Grid ScrollViewer.CanContentScroll="True" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="276" />
                         <ColumnDefinition Width="Auto" MinWidth="276" />
@@ -97,7 +99,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" /> <!--if "auto, no scrollbar -->
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock Text="{DynamicResource Server}"
@@ -112,8 +114,7 @@
                           Text="{Binding Path=ConnectionStringBuilder.DataSource }" />
                     </StackPanel>
                     <GroupBox Header="{DynamicResource Authentication}"
-                      Grid.Column="0"
-                      Grid.Row="1">
+                      Grid.Column="0" Grid.Row="1">
                         <StackPanel>
                             <RadioButton Content="{DynamicResource WindowsAuthentication}"
                                  Margin="3"
@@ -179,22 +180,24 @@
                     <TextBlock x:Name="tbServerInfos" TextWrapping="Wrap" Text="{Binding Path=ServerInfos}" Grid.Row="4" Grid.Column="0" Margin="10">
                     </TextBlock>
                     <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,0">
-                    <Label x:Name="lblDatabases" Content="{DynamicResource Databases}" />
-                    <!--<Button x:Name="btnCheckAll" Content="{DynamicResource CheckAll}" Width="100" Click="btnCheckAll_Click" BorderThickness="0" BorderBrush="White" />-->
+                        <Label x:Name="lblDatabases" Content="{DynamicResource Databases}" />
+                        <!--<Button x:Name="btnCheckAll" Content="{DynamicResource CheckAll}" Width="100" Click="btnCheckAll_Click" BorderThickness="0" BorderBrush="White" />-->
                     </StackPanel>
                     <DataGrid x:Name="dgDatabases" Grid.Row="6" AutoGenerateColumns="False" ItemsSource="{Binding Path=Databases}" 
                               SelectionMode="Single" SelectionUnit="Cell" EnableRowVirtualization="False" 
-                              CanUserAddRows="False" >
+                              CanUserAddRows="False"
+                              ScrollViewer.CanContentScroll="True" 
+                              ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.RowSpan="2">
                         <!-- CanUserAddRows to avoid last empty row-->
                         <DataGrid.Columns>
                             <!--<DataGridCheckBoxColumn Binding="{Binding Checked}" CanUserSort="False" Header="{DynamicResource Analyze}"/>-->
-                            <!--Instead of DataGridCheckBoxColumn to allow single click select !--> 
+                            <!--Instead of DataGridCheckBoxColumn to allow single click select !-->
                             <DataGridTemplateColumn Header="{DynamicResource Analyze}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=Checked, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=Checked, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding Name}" CanUserSort="False" Header="{DynamicResource Database}"/>
                             <DataGridTextColumn Binding="{Binding CompatibilityLevel}" CanUserSort="False" Header="{DynamicResource Compatibility}">
@@ -221,15 +224,15 @@
                 </TabItem.Header>
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <Label Content="{DynamicResource FilterCache}" />
                             <TextBox x:Name="txtFilterCache" Width="100"/>
                             <Button x:Name="btnFilterCache" Content="{DynamicResource Filter}" Margin="5,5,5,5" Click="btnFilterCache_Click" />
                             <!--<RadioButton x:Name="ByExecution" Content="By Execution" Margin="0,5,0,0" />-->
                         </StackPanel>
-                    <DataGrid x:Name="dgCacheExplorer" ItemsSource="{Binding Path=PlanCache}" AutoGenerateColumns="False"
+                        <DataGrid x:Name="dgCacheExplorer" ItemsSource="{Binding Path=PlanCache}" AutoGenerateColumns="False"
                     EnableRowVirtualization="False" CanUserAddRows="False" >
-                    <!--<DataGrid.Resources>
+                            <!--<DataGrid.Resources>
                         <Style TargetType="{x:Type DataGridCell}">
                             <Style.Triggers>
                                 <Trigger Property="DataGridCell.IsSelected" Value="True">
@@ -238,39 +241,39 @@
                             </Style.Triggers>
                         </Style>
                     </DataGrid.Resources>-->
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="{DynamicResource NbExec}" Width="55" Binding="{Binding execution_count}"/>
-                        <DataGridTextColumn Header="{DynamicResource Query}" Width="400" Binding="{Binding short_query}" IsReadOnly="True">
-                            <DataGridTextColumn.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <Setter Property="ToolTip" Value="{Binding text}" />
-                                </Style>
-                            </DataGridTextColumn.CellStyle>
-                        </DataGridTextColumn>
-                        <DataGridTemplateColumn MinWidth="100" Header="{DynamicResource Query}">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical">
-                                        <Button x:Name="btnViewQuery" Content="{DynamicResource Query}" Height="30" VerticalAlignment="Bottom" Click="btnViewQuery_Click" />
-                                        <Button x:Name="btnViewPlan" Content="Plan" Height="30" VerticalAlignment="Bottom" Click="btnViewPlan_Click" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="{DynamicResource CreationDate}" Width="70" Binding="{Binding creation_time}"/>
-                        <DataGridTextColumn Header="{DynamicResource CreationDate}" Width="300" Binding="{Binding details}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style>
-                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                    <Setter Property="TextBlock.TextAlignment" Value="Left"/>
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="{DynamicResource Warnings}" Width="30" Binding="{Binding warnings}"/>
-                        <DataGridTextColumn Header="{DynamicResource MissingIndexes}" Width="30" Binding="{Binding missing_index}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                </StackPanel>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{DynamicResource NbExec}" Width="55" Binding="{Binding execution_count}"/>
+                                <DataGridTextColumn Header="{DynamicResource Query}" Width="400" Binding="{Binding short_query}" IsReadOnly="True">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="ToolTip" Value="{Binding text}" />
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTemplateColumn MinWidth="100" Header="{DynamicResource Query}">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <Button x:Name="btnViewQuery" Content="{DynamicResource Query}" Height="30" VerticalAlignment="Bottom" Click="btnViewQuery_Click" />
+                                                <Button x:Name="btnViewPlan" Content="Plan" Height="30" VerticalAlignment="Bottom" Click="btnViewPlan_Click" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{DynamicResource CreationDate}" Width="70" Binding="{Binding creation_time}"/>
+                                <DataGridTextColumn Header="{DynamicResource CreationDate}" Width="300" Binding="{Binding details}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                            <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="{DynamicResource Warnings}" Width="30" Binding="{Binding warnings}"/>
+                                <DataGridTextColumn Header="{DynamicResource MissingIndexes}" Width="30" Binding="{Binding missing_index}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
         </TabControl>

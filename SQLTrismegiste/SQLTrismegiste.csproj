@@ -143,7 +143,7 @@
     </EmbeddedResource>
     <None Include="CorpusHermeticum\Corpus.xsd">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -155,32 +155,64 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\AgentJobHistory.xml" />
-    <Resource Include="CorpusHermeticum\AgentJobs.xml" />
-    <Resource Include="CorpusHermeticum\Backups.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="CorpusHermeticum\BufferUsage.xml" />
-    <Resource Include="CorpusHermeticum\Columns.xml" />
-    <Resource Include="CorpusHermeticum\Databases.xml" />
-    <Resource Include="CorpusHermeticum\DatabasesWithProblems.xml" />
-    <Resource Include="CorpusHermeticum\ErrorLog.xml" />
-    <Resource Include="CorpusHermeticum\IOStatsByDisk.xml" />
-    <Resource Include="CorpusHermeticum\IOStatsByFile.xml" />
-    <Resource Include="CorpusHermeticum\ObjectsCompressed.xml" />
-    <Resource Include="CorpusHermeticum\ObjectsInFilegroups.xml" />
-    <Resource Include="CorpusHermeticum\QueriesByCPU.xml" />
-    <Resource Include="CorpusHermeticum\QueryStats.xml" />
-    <Resource Include="CorpusHermeticum\Tables.xml" />
-    <Resource Include="CorpusHermeticum\TransLogSize.xml" />
+    <None Include="CorpusHermeticum\AgentJobHistory.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\AgentJobs.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\Backups.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\BufferUsage.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\Columns.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\Databases.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\DatabasesWithProblems.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\ErrorLog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\IOStatsByDisk.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\IOStatsByFile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\ObjectsCompressed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\ObjectsInFilegroups.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\QueriesByCPU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\QueryStats.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\Tables.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\TransLogSize.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\FragmentedIndexes.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\FragmentedIndexes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\WaitStats.xml" />
+    <None Include="CorpusHermeticum\WaitStats.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Resource Include="SqlTrismegiste.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -218,38 +250,85 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Licence.txt" />
-    <Resource Include="CorpusHermeticum\MissingIndexWarnings.xml" />
-    <Resource Include="CorpusHermeticum\AgentLongestSteps.xml" />
-    <Resource Include="CorpusHermeticum\LockEscalationPartitioned.xml" />
-    <Resource Include="CorpusHermeticum\DatabaseFiles.xml" />
-    <Resource Include="CorpusHermeticum\DatabaseFileSize.xml">
+    <None Include="CorpusHermeticum\MissingIndexWarnings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\AgentLongestSteps.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\LockEscalationPartitioned.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\DatabaseFiles.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\DatabaseFileSize.xml">
       <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="CorpusHermeticum\DatabaseFileSizesandSpace.xml" />
-    <Resource Include="CorpusHermeticum\Memory.xml" />
-    <Resource Include="CorpusHermeticum\MemoryClerkUsage.xml" />
-    <Resource Include="CorpusHermeticum\PlanCacheBloat.xml" />
-    <Resource Include="CorpusHermeticum\QueryExecutionCounts.xml" />
-    <Resource Include="CorpusHermeticum\SPAvgElapsedTime.xml" />
-    <Resource Include="CorpusHermeticum\SPAvgElapsedVariableTime.xml" />
-    <Resource Include="CorpusHermeticum\SPExecutionCounts.xml" />
-    <Resource Include="CorpusHermeticum\SPLogicalReads.xml" />
-    <Resource Include="CorpusHermeticum\SPWorkerTime.xml" />
-    <Resource Include="CorpusHermeticum\TopIOStatements.xml" />
-    <Resource Include="CorpusHermeticum\BadNCIndexes.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="CorpusHermeticum\LastBackup.xml" />
-    <Resource Include="CorpusHermeticum\UntrustedConstraints.xml" />
-    <Resource Include="CorpusHermeticum\QueriesWithCLR.xml" />
-    <Resource Include="CorpusHermeticum\Assemblies.xml" />
-    <Resource Include="CorpusHermeticum\LatchStats.xml" />
-    <Resource Include="CorpusHermeticum\ImplicitConversions.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="CorpusHermeticum\PartitionedObjects.xml" />
-    <Resource Include="CorpusHermeticum\ParallelPlans.xml" />
-    <Resource Include="CorpusHermeticum\CardinalityEstimation.xml" />
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\DatabaseFileSizesandSpace.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\Memory.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\MemoryClerkUsage.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\PlanCacheBloat.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\QueryExecutionCounts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\SPAvgElapsedTime.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\SPAvgElapsedVariableTime.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\SPExecutionCounts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\SPLogicalReads.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\SPWorkerTime.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\TopIOStatements.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\BadNCIndexes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\LastBackup.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\UntrustedConstraints.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\QueriesWithCLR.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\Assemblies.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\LatchStats.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\ImplicitConversions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\PartitionedObjects.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\ParallelPlans.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="CorpusHermeticum\CardinalityEstimation.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="templates\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -270,69 +349,69 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\Alerts.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\Alerts.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\Configuration.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\Configuration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\Connections.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\Connections.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\CPUByDatabase.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\CPUByDatabase.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\Folders.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\Folders.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\IOStalls.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\IOStalls.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\IOWarnings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\IOWarnings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\VolumeInfos.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\VolumeInfos.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\VLF.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\VLF.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\Sysadmin.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\Sysadmin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\SignalWaitStats.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\SignalWaitStats.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\PerformanceCounters.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\PerformanceCounters.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="CorpusHermeticum\MissingIndexes.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <None Include="CorpusHermeticum\MissingIndexes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PoorMansTSqlFormatterLib\PoorMansTSqlFormatterLib.csproj">
