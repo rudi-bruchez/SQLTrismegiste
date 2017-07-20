@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Top Cached SPs By Total Worker time" label="Procédures par temps CPU" />
+    <description lang="en" tooltip="Top Cached SPs By Total Worker time" label="SPs By Worker time" />
   </header>
   <queries>
     <query versionMajor="11">

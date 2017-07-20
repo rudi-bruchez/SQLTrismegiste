@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Espace dans les fichiers des bases de données" label="Fichiers et taille de bases" />
+    <description lang="en" tooltip="Space in the database files" label="Database Files and space" />
   </header>
   <queries>
     <query versionMajor="*">
@@ -12,12 +13,12 @@ SELECT
 	mf.file_id as fichier,
 	mf.type_desc as [type],
 	mf.name,
-	(CAST(mf.size as bigint) * 8192) / 1024 / 1024 as taille_Mo,
+	(CAST(mf.size as bigint) * 8192) / 1024 / 1024 as Size_In_MB,
 	CASE mf.max_size
         WHEN 0 THEN 'fixe'
         WHEN -1 THEN 'unlimited'
         WHEN 268435456 THEN '2 To'
-        ELSE CAST((CAST(mf.max_size as bigint) / 128 as varchar(50)) + ' Mo'
+        ELSE CAST(CAST(mf.max_size as bigint) / 128 as varchar(50)) + ' MB'
   END as max_size,
 	CASE mf.is_percent_growth
 		WHEN 1 THEN CAST(mf.growth as varchar (20)) + '%'

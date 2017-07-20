@@ -3,6 +3,7 @@
            name="MissingIndexes" level="Database" folder="Databases">
   <header>
     <description lang="fr" tooltip="index manquants" label="index manquants" />
+    <description lang="en" tooltip="Missing indexes" label="Missing indexes" />
   </header>
   <queries>
     <query versionMajor="*">

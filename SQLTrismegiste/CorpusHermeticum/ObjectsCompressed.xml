@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Objets compressés" label="Objets compressés" />
+    <description lang="en" tooltip="Compressed objects" label="Objets compressés" />
   </header>
   <queries>
     <query versionMajor="*">

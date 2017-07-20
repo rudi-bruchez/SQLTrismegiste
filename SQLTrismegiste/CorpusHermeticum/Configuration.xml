@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Configuration du serveur" label="Configuration" />
+    <description lang="en" tooltip="Server configuration" label="Configuration" />
   </header>
   <queries>
     <query versionMajor="*">

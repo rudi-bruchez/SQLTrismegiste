@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Historique des travaux de l'agent SQL" label="Historique des travaux" />
+    <description lang="en" tooltip="SQL Agent Job History" label="Job History" />
   </header>
   <queries>
     <query versionMajor="*">

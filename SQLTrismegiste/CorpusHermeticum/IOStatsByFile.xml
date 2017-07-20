@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Statistiques IO par fichiers de bases de données" label="IO par fichiers" />
+    <description lang="en" tooltip="IO statistics per database file" label="IO per file" />
   </header>
   <queries>
     <query versionMajor="*">

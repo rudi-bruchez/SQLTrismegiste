@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Escalade de verrous configuré sur tables partitionnées" label="Escalade sur partitions" />
+    <description lang="en" tooltip="Configured lock escalation on partitioned tables" label="Escalation on partitions" />
   </header>
   <queries>
     <query versionMajor="*">

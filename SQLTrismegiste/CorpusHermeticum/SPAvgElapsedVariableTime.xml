@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Top Cached SPs By Avg Elapsed Time with execution time variability" label="Procédures par variabilité d'exécution" />
+    <description lang="en" tooltip="Top Cached SPs By Avg Elapsed Time with execution time variability" label="SPs with execution time variability" />
   </header>
   <queries>
     <query versionMajor="11">

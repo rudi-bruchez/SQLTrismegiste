@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Assemblies présentes dans les bases, et modules reliés" label="Assemblies" />
+    <description lang="en" tooltip="Assemblies present in database, with modules" label="Assemblies" />
   </header>
   <queries>
     <query versionMajor="*">

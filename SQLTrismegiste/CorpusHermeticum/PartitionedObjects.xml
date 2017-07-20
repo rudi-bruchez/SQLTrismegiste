@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Objets partitionnés par base de données" label="Objets partitionnés" />
+    <description lang="en" tooltip="Partitioned objects per database" label="Partitioned objects" />
   </header>
   <queries>
     <query versionMajor="*">

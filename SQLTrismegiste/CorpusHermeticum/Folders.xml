@@ -1,24 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <folders>
 <folder name="Server">
-  <display lang="FR" tooltip="analyse du système" label="Système" />
+  <display lang="fr" tooltip="analyse du système" label="Système" />
+  <display lang="en" tooltip="System Analysis" label="System" />
 </folder>
 <folder name="Security">
-  <display lang="FR" tooltip="analyse de sécurité" label="Sécurité" />
+  <display lang="fr" tooltip="analyse de sécurité" label="Sécurité" />
+  <display lang="en" tooltip="Security Analysis" label="Security" />
 </folder>
 <folder name="Maintenance">
-  <display lang="FR" tooltip="Analyse de la maintenance" label="Maintenance" />
+  <display lang="fr" tooltip="Analyse de la maintenance" label="Maintenance" />
+  <display lang="en" tooltip="Maintenance Analaysis" label="Maintenance" />
 </folder>
 <folder name="Databases">
-  <display lang="FR" tooltip="analyse des bases de données" label="Bases de données" />
+  <display lang="fr" tooltip="analyse des bases de données" label="Bases de données" />
+  <display lang="en" tooltip="Database Analysis" label="Databases" />
 </folder>
 <folder name="Performances">
-	<display lang="FR" tooltip="performances du sysème" label="Performances" />
+	<display lang="fr" tooltip="performances du système" label="Performances" />
+	<display lang="en" tooltip="Performances" label="Performances" />
 </folder>
 <folder name="Queries">
-  <display lang="FR" tooltip="analyse des requêtes" label="Requêtes" />
+  <display lang="fr" tooltip="analyse des requêtes" label="Requêtes" />
+  <display lang="en" tooltip="Queries' Analysis" label="Queries" />
 </folder>
 <folder name="SQLOS">
-  <display lang="FR" tooltip="analyse SQLOS" label="SQLOS" />
+  <display lang="fr" tooltip="analyse SQLOS" label="SQLOS" />
+  <display lang="en" tooltip="SQLOS" label="SQLOS" />
 </folder>
 </folders>

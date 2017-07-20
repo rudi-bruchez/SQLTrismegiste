@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Travaux de l'agent" label="Travaux" />
+    <description lang="en" tooltip="Agent Jobs" label="Jobs" />
   </header>
   <queries>
     <query versionMajor="*">

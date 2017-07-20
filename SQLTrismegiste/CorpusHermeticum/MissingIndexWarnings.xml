@@ -2,7 +2,8 @@
 <hermeticus name="MissingIndexWarnings" level="Database" folder="Databases"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
-    <description lang="fr" tooltip="Find missing index warnings for cached plans in the current database" label="Avertissements Missing Index" />
+    <description lang="fr" tooltip="Recherche d'avetissements d'index manqaunts dans la base courante" label="Avertissements Missing Index" />
+    <description lang="en" tooltip="Find missing index warnings for cached plans in the current database" label="Missing Index warnings" />
   </header>
   <queries>
     <query versionMajor="11">

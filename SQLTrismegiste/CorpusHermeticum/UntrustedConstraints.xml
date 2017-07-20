@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Contraintes auxquelles on ne peut pas faire confiance" label="Contraintes non sûres" />
+    <description lang="en" tooltip="Untrusted constraints" label="Untrusted constraints" />
   </header>
   <queries>
     <query versionMajor="*">

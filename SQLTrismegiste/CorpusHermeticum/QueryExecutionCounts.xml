@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Top cached queries by Execution Count" label="Requêtes par exécution" />
+    <description lang="en" tooltip="Top cached queries by Execution Count" label="Queries by Execution Count" />
   </header>
   <queries>
     <query versionMajor="11">

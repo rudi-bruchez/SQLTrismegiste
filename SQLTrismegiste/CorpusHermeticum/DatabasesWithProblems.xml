@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Bases de données qui ont des options problématiques" label="Bases problématiques" />
+    <description lang="en" tooltip="Databases with problematic options" label="Database Options" />
   </header>
   <queries>
     <query versionMajor="*">

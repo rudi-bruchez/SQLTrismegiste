@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Dernières sauvegardes détaillées" label="Dernières sauvegardes" />
+    <description lang="en" tooltip="detailed info about last backups" label="Last backups" />
   </header>
   <queries>
     <query versionMajor="*">

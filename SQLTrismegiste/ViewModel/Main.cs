@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -344,7 +345,7 @@ namespace SQLTrismegiste.ViewModel
                 foreach (XmlNode folder in xmlNodeList)
                 {
                     if (folder.Attributes == null) continue;
-                    var selectSingleNode = folder.SelectSingleNode("display[@lang='FR']");
+                    var selectSingleNode = folder.SelectSingleNode($"display[@lang='{CultureInfo.CurrentCulture.TwoLetterISOLanguageName}']");
                     if (selectSingleNode?.Attributes == null) continue; // if (selectSingleNode == null) continue; if (selectSingleNode.Attributes == null) continue;
 
                     var tf = new Folder

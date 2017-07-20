@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Mémoire utilisée" label="Mémoire utilisée" />
+    <description lang="en" tooltip="Memory usage" label="Memory usage" />
   </header>
   <queries>
 <query versionMajor="11-*">

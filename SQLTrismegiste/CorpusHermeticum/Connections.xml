@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Sessions ouvertes" label="Sessions" />
+    <description lang="en" tooltip="Opened Sessions" label="Sessions" />
   </header>
   <queries>
     <query versionMajor="*">

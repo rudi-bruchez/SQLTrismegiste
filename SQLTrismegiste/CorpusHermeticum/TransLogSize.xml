@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Remplissage des journaux des transactions" label="TransLogSize" />
+    <description lang="en" tooltip="Transaction log fullness" label="TransLogSize" />
   </header>
   <queries>
     <query versionMajor="*">

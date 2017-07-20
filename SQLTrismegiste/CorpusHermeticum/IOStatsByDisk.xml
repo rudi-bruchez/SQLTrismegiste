@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Statistiques IO par partitions" label="IO par disques" />
+    <description lang="en" tooltip="IO stats per partitions" label="IO per disc" />
   </header>
   <queries>
     <query versionMajor="*">

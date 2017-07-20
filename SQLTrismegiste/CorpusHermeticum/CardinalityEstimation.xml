@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Identification des différences d'estimation de cardinalité à partir du cache de plans" label="Estimation de cardinalité" />
+    <description lang="en" tooltip="Identift cardinalty estimation difference from cached query plans" label="Cardinality estimation" />
   </header>
   <queries>
     <query versionMajor="11">

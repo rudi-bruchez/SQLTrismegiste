@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="VLF" label="VLF" />
+    <description lang="en" tooltip="VLF" label="VLF" />
   </header>
   <queries>
     <query versionMajor="11">

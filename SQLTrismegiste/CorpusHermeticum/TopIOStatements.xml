@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Lists the top statements by average input/output usage for the current database" label="Requêtes à fort I/Os" />
+    <description lang="en" tooltip="Lists the top statements by average input/output usage for the current database" label="High I/O queries" />
   </header>
   <queries>
     <query versionMajor="11">

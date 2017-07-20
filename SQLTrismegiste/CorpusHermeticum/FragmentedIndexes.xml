@@ -3,6 +3,7 @@
            name="FragmentedIndexes" level="Database" >
   <header>
     <description lang="fr" tooltip="fragmentation des index" label="fragmentation" />
+    <description lang="en" tooltip="Index fragmentation" label="fragmentation" />
   </header>
   <queries>
     <query versionMajor="*">

@@ -3,6 +3,7 @@
   name="QueryStats" level="Server" folder="Performances">
   <header>
     <description lang="fr" tooltip="Stats générales des requêtes" label="Stats de requêtes" />
+    <description lang="en" tooltip="General statistics of queries" label="Query Stats" />
   </header>
   <queries>
     <query versionMajor="*">

@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="attentes SQL server" label="attentes SQL server" />
+    <description lang="en" tooltip="Wait Stats" label="Wait Stats" />
   </header>
   <queries>
     <query versionMajor="*">

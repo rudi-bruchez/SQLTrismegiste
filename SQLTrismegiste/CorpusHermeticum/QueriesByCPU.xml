@@ -3,6 +3,7 @@
   name="QueriesByCPU" level="Server" folder="Performances">
   <header>
     <description lang="fr" tooltip="Requêtes par CPU" label="Requêtes par CPU" />
+    <description lang="en" tooltip="Queries per CPU" label="Queries per CPU" />
   </header>
   <queries>
     <query versionMajor="*">

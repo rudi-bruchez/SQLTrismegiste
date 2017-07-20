@@ -2,7 +2,8 @@
 <hermeticus name="Columns" level="Database" folder="Databases"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
-    <description lang="fr" tooltip="Analyse des colonnes" label="Colonnes" />
+    <description lang="fr" tooltip="Analyse des colonnes qui peuvent poser problème" label="Colonnes problématiques" />
+    <description lang="en" tooltip="Potentially problematic columns" label="Bad columns" />
   </header>
   <queries>
     <query versionMajor="*">

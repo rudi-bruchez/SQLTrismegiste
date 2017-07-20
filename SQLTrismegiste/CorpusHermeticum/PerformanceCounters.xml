@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Compteurs de performance" label="Compteurs de performance" />
+    <description lang="en" tooltip="Performance counters" label="Performance counters" />
   </header>
   <queries>
     <query versionMajor="*">

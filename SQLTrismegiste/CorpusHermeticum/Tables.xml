@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Analyse des tables" label="Tables" />
+    <description lang="en" tooltip="Table Analysis" label="Tables" />
   </header>
   <queries>
     <query versionMajor="*">

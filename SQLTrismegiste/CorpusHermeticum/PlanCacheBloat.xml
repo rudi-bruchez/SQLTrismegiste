@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Analyse de l'utilisation du cache de plans" label="Plans en cache" />
+    <description lang="en" tooltip="Plan cache analysis" label="Plan cache analysis" />
   </header>
   <queries>
     <query versionMajor="*">

@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Détection de conversions implicites dans les plans en cache" label="Conversions implicites" />
+    <description lang="en" tooltip="Implicit conversions in the plan cache" label="Implicit conversions" />
     <!-- http://sqlblog.com/blogs/jonathan_kehayias/archive/2010/01/08/finding-implicit-column-conversions-in-the-plan-cache.aspx 
      Jonathan Kehayias-->
   </header>

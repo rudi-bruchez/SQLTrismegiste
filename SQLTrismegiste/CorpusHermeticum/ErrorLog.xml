@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="100 premières lignes du journal d'erreur actuel" label="ErrorLog" />
+    <description lang="en" tooltip="100 first lines of the current errorlog" label="ErrorLog" />
   </header>
   <queries>
     <query versionMajor="*">

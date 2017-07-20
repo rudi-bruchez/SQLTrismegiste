@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Les étapes de travaux les plus longues" label="Longues étapes" />
+    <description lang="en" tooltip="Longest steps in Agent Jobs" label="Long steps" />
   </header>
   <queries>
     <query versionMajor="*">

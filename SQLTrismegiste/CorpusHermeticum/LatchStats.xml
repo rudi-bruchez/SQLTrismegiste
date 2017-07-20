@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Statistiques cumulées des latches" label="Stats de latches" />
+    <description lang="en" tooltip="Cumulated stats about latches" label="Stats de latches" />
   </header>
   <queries>
     <query versionMajor="*">

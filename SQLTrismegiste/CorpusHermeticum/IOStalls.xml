@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Attentes IO" label="IO Stalls" />
+    <description lang="en" tooltip="IO waits" label="IO Stalls" />
   </header>
   <queries>
     <query versionMajor="*">

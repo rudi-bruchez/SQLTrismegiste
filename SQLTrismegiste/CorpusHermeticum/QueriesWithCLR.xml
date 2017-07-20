@@ -3,6 +3,7 @@
   name="QueriesWithCLR" level="Server" folder="Performances">
   <header>
     <description lang="fr" tooltip="Requêtes avec du temps CLR" label="Requêtes CLR" />
+    <description lang="en" tooltip="Queries with CLR time" label="CLR Time" />
   </header>
   <queries>
     <query versionMajor="*">

@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" label="Sysadmin" tooltip="sysadmin" />
+    <description lang="en" label="Sysadmin" tooltip="sysadmin" />
   </header>
   <queries>
     <query versionMajor="*">

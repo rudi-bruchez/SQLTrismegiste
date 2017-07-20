@@ -3,6 +3,7 @@
   name="ParallelPlans" level="Server" folder="Performances">
   <header>
     <description lang="fr" tooltip="Plans parallélisés en cache" label="Plans parallélisés" />
+    <description lang="en" tooltip="Parallel plans in cache" label="Parallel Plans" />
   </header>
   <queries>
     <query versionMajor="*">

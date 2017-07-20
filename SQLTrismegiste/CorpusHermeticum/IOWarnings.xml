@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Avertissements IO" label="Avertissements IO" />
+    <description lang="en" tooltip="IO warnings" label="IO warnings" />
   </header>
   <queries>
     <query versionMajor="*">

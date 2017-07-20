@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Fichiers des bases de données" label="Fichiers de bases de données" />
+    <description lang="en" tooltip="Database files" label="Database files" />
   </header>
   <queries>
     <query versionMajor="*">

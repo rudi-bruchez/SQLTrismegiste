@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Possible Bad NC Indexes (writes > reads)" label="Index inutiles ?" />
+    <description lang="en" tooltip="Possible Bad NC Indexes (writes > reads)" label="Unused indexes ?" />
   </header>
   <queries>
     <query versionMajor="11">

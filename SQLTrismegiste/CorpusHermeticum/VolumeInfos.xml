@@ -2,7 +2,8 @@
 <hermeticus name="VolumeInfos" level="Server" folder="Server"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
-    <description lang="fr" tooltip="Utilisation du Buffer" label="Info des volumes" />
+    <description lang="fr" tooltip="Utilisation des volumes" label="Info des volumes" />
+    <description lang="en" tooltip="Volume Usage" label="Volume Usage" />
   </header>
   <queries>
     <query versionMajor="11">

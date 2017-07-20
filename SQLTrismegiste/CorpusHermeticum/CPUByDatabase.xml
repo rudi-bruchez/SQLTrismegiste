@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Activité CPU par base" label="Activité CPU" />
+    <description lang="en" tooltip="CPU activity per database" label="CPU per base" />
   </header>
   <queries>
     <query versionMajor="*">

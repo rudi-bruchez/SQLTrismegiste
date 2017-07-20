@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Corpus.xsd">
   <header>
     <description lang="fr" tooltip="Objets dans des filegroups secondaires" label="Filegroups secondaires" />
+    <description lang="en" tooltip="Objects in secondary filegroups" label="Secondary Filegroups" />
   </header>
   <queries>
     <query versionMajor="*">
