@@ -22,10 +22,6 @@ The diagnostic queries are stored in XML files, inside the `CorpusHermeticum` fo
 
 Then, you can write multiple versions of your query, for different versions (MajorVersion) of SQL Server. Sql Trismegiste will choose the query accordingly. It will execute the query defined for the version of SQL server it is connected to, or the closest previous version, or the query marked as `*` for any version. You can write only one query and mark it as `*` if your query is not version-specific.
 
-### Functionalities ###
+### Features ###
 
 - You can zip the results folder and send it by email.
-
-### Not yet implemented ###
-
-- `Save Sql Text` and `Save Query Plans` is almost done. It can save query plans and sql texts when you check it and Sql Trismegiste sees `plan_handle` or `sql_handle` columns.
