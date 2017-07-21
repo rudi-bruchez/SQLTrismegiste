@@ -6,7 +6,7 @@
     <description lang="en" tooltip="Possible Bad NC Indexes (writes > reads)" label="Unused indexes ?" />
   </header>
   <queries>
-    <query versionMajor="11">
+    <query versionMajor="11-*">
       <![CDATA[
 SELECT OBJECT_NAME(s.[object_id]) AS [Table Name], i.name AS [Index Name], i.index_id, 
 i.is_disabled, i.is_hypothetical, i.has_filter, i.fill_factor,

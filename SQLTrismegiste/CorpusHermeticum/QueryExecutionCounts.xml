@@ -6,7 +6,7 @@
     <description lang="en" tooltip="Top cached queries by Execution Count" label="Queries by Execution Count" />
   </header>
   <queries>
-    <query versionMajor="11">
+    <query versionMajor="11-*">
       <![CDATA[
 SELECT TOP (100) qs.execution_count, qs.total_rows, qs.last_rows, qs.min_rows, qs.max_rows,
 qs.last_elapsed_time, qs.min_elapsed_time, qs.max_elapsed_time,

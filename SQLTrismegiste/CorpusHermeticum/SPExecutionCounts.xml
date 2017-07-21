@@ -6,7 +6,7 @@
     <description lang="en" tooltip="Top Cached SPs By Execution Count" label="SPs By Execution Count" />
   </header>
   <queries>
-    <query versionMajor="11">
+    <query versionMajor="11-*">
       <![CDATA[
 SELECT TOP(100) p.name AS [SP Name], qs.execution_count,
 ISNULL(qs.execution_count/DATEDIFF(Minute, qs.cached_time, GETDATE()), 0) AS [Calls/Minute],

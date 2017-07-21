@@ -6,7 +6,7 @@
     <description lang="en" tooltip="Top Cached SPs By Total Logical Reads" label="SPs By Logical Reads" />
   </header>
   <queries>
-    <query versionMajor="11">
+    <query versionMajor="11-*">
       <![CDATA[
 SELECT TOP(25) p.name AS [SP Name], qs.total_logical_reads AS [TotalLogicalReads], 
 qs.total_logical_reads/qs.execution_count AS [AvgLogicalReads],qs.execution_count, 

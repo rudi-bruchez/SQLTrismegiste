@@ -9,8 +9,8 @@
         <!--<vm:Main x:Key="MainViewModel" />-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/SQLTrismegiste;component/Resources/en.xaml" />
-                <!--<ResourceDictionary Source="/SQLTrismegiste;component/Resources/fr.xaml" />-->
+                <!--<ResourceDictionary Source="/SQLTrismegiste;component/Resources/en.xaml" />-->
+                <ResourceDictionary Source="/SQLTrismegiste;component/Resources/fr.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -6,7 +6,7 @@
     <description lang="en" tooltip="Top Cached SPs By Total Worker time" label="SPs By Worker time" />
   </header>
   <queries>
-    <query versionMajor="11">
+    <query versionMajor="11-*">
       <![CDATA[
 SELECT TOP(25) p.name AS [SP Name], qs.total_worker_time AS [TotalWorkerTime], 
 qs.total_worker_time/qs.execution_count AS [AvgWorkerTime], qs.execution_count, 

@@ -43,7 +43,7 @@
     <s:String x:Key="msgAnalysisOf">Analyse de</s:String>
     <s:String x:Key="msgCompleted">terminé</s:String>
     <s:String x:Key="msgSuccess">Succès</s:String>
-    <s:String x:Key="msgAnalysisRunning">analysé. Analyse en cours. Vous pouvez déjà visulaiser les premiers résultats</s:String>
+    <s:String x:Key="msgAnalysisRunning">analysé. Analyse en cours. Vous pouvez déjà visualiser les premiers résultats</s:String>
     <s:String x:Key="msgErrorLoadingFolder">Erreur de chargement des dossiers</s:String>
     <s:String x:Key="msgErrorNotConnected">NON connecté. Erreur dans les propriétés de la connexion ?</s:String>
     <s:String x:Key="msgSqlError">Erreur SQL</s:String>

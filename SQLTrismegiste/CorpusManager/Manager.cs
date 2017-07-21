@@ -305,6 +305,13 @@ namespace SQLTrismegiste.CorpusManager
             return dt;
         }
 
+        public void CleanOutputFolder()
+        {
+            DirectoryInfo di = new DirectoryInfo(OutputPath);
+
+            foreach (FileInfo file in di.GetFiles()) { file.Delete(); }
+        }
+
         public string Run(Hermeticus h)
         {
             // some checking

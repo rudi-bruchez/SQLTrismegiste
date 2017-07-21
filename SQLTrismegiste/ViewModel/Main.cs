@@ -263,6 +263,9 @@ namespace SQLTrismegiste.ViewModel
             var i = 1;
             var onlyServerLevel = (_ce.Databases.Count == 0);
 
+            // rudi 2017.07.21 - delete output folder's content
+            _ce.CleanOutputFolder();
+
             var nb = _ce.Hermetica.Count; // todo : only server-level analysis ?
             foreach (var hermeticus in _ce.Hermetica)
             {

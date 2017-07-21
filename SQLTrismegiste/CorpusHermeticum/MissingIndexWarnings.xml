@@ -6,7 +6,7 @@
     <description lang="en" tooltip="Find missing index warnings for cached plans in the current database" label="Missing Index warnings" />
   </header>
   <queries>
-    <query versionMajor="11">
+    <query versionMajor="11-*">
       <![CDATA[
 SELECT TOP(25) OBJECT_NAME(objectid) AS [ObjectName], 
                query_plan, cp.objtype, cp.usecounts
